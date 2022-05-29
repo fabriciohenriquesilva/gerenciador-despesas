@@ -1,7 +1,5 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 
 public class Despesa {
@@ -9,7 +7,7 @@ public class Despesa {
     private Integer id;
     private String descricao;
     private Double valorGasto;
-    private LocalDate dataGasto;
+    private LocalDate dataDespesa;
 
     public Despesa() {
     }
@@ -38,11 +36,11 @@ public class Despesa {
         this.valorGasto = valorGasto;
     }
 
-    public LocalDate getDataGasto() {
-        return dataGasto;
+    public LocalDate getDataDespesa() {
+        return dataDespesa;
     }
 
-    public void setDataGasto(LocalDate dataGasto) {
-        this.dataGasto = dataGasto;
+    public void setDataDespesa(LocalDate dataDespesa) {
+        this.dataDespesa = dataDespesa;
     }
 }
