@@ -16,20 +16,22 @@
 <h1>Criar nova despesa</h1>
 
 <div class="container" style="width: 640px;">
-    <form method="post">
+
+    <form th:object="${despesaDto}" action="/nova-despesa" method="post">
+
         <div class="mb-3">
-            <label for="descricao" class="form-label">Descrição da despesa</label>
-            <input type="descricao" class="form-control" id="descricao">
+            <label class="form-label">Descrição da despesa</label>
+            <input th:field="*{descricao}" type="text" class="form-control" />
         </div>
         <div class="mb-3">
-            <label for="valor" class="form-label">Valor gasto</label>
-            <input type="number" class="form-control" id="valor">
+            <label class="form-label">Valor gasto</label>
+            <input th:field="*{valorGasto}" type="number" class="form-control">
         </div>
         <div class="mb-3">
-            <label for="data-despesa" class="form-label">Data da despesa</label>
-            <input type="date" class="form-control" id="data-despesa">
+            <label class="form-label">Data da despesa</label>
+            <input th:field="*{dataDespesa}" type="date" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
 </div>
 </body>

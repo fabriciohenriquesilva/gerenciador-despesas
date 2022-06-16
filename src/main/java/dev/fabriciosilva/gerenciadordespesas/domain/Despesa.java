@@ -1,9 +1,14 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "despesa")
 public class Despesa {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String descricao;
     private Double valorGasto;
