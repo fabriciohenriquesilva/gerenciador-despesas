@@ -2,19 +2,24 @@ package dev.fabriciosilva.gerenciadordespesas.dto;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class DespesaDto {
 
+    @NotBlank(message = "É obrigatório preencher o campo descrição")
     private String descricao;
-    private Double valorGasto;
+    @NotBlank(message = "É obrigatório preencher o campo valor gasto com um valor númerico")
+    private String valorGasto;
+    @NotBlank(message = "É obrigatório preencher o campo de data da despesa")
     private String dataDespesa;
 
     public String getDescricao() {
         return descricao;
     }
 
-    public Double getValorGasto() {
+    public String getValorGasto() {
         return valorGasto;
     }
 
@@ -26,7 +31,7 @@ public class DespesaDto {
         this.descricao = descricao;
     }
 
-    public void setValorGasto(Double valorGasto) {
+    public void setValorGasto(String valorGasto) {
         this.valorGasto = valorGasto;
     }
 
@@ -34,10 +39,10 @@ public class DespesaDto {
         this.dataDespesa = dataDespesa;
     }
 
-    public Despesa toDespesa(){
+    public Despesa toDespesa() {
         Despesa despesa = new Despesa();
         despesa.setDescricao(descricao);
-        despesa.setValorGasto(valorGasto);
+        despesa.setValorGasto(new BigDecimal(valorGasto));
 
         LocalDate data = LocalDate.parse(dataDespesa);
         despesa.setDataDespesa(data);

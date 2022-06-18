@@ -1,6 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -11,7 +12,7 @@ public class Despesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String descricao;
-    private Double valorGasto;
+    private BigDecimal valorGasto;
     private LocalDate dataDespesa;
 
     public Despesa() {
@@ -33,11 +34,11 @@ public class Despesa {
         this.descricao = descricao;
     }
 
-    public Double getValorGasto() {
+    public BigDecimal getValorGasto() {
         return valorGasto;
     }
 
-    public void setValorGasto(Double valorGasto) {
+    public void setValorGasto(BigDecimal valorGasto) {
         this.valorGasto = valorGasto;
     }
 
