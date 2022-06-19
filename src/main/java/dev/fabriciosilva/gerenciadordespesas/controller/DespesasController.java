@@ -12,15 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
-@RequestMapping({"/", "/home", "/index"})
+@RequestMapping("/")
 public class DespesasController {
 
     @Autowired
     private DespesaService despesaService;
 
-    public String index(){
+    @GetMapping
+    public String index(Model model){
+        List<Despesa> despesas = despesaService.listarTodos();
+        model.addAttribute("despesas", despesas);
         return "index";
     }
 

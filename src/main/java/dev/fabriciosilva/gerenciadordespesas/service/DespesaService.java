@@ -6,6 +6,8 @@ import dev.fabriciosilva.gerenciadordespesas.repository.DespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DespesaService {
 
@@ -16,5 +18,9 @@ public class DespesaService {
         Despesa despesa = despesaDto.toDespesa();
         despesaRepository.save(despesa);
         return despesa;
+    }
+
+    public List<Despesa> listarTodos(){
+        return despesaRepository.findAll();
     }
 }
