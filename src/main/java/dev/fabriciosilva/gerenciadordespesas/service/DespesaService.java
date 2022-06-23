@@ -23,4 +23,8 @@ public class DespesaService {
     public List<Despesa> listarTodos(){
         return despesaRepository.findAll();
     }
+
+    public void excluir(Integer id){
+        despesaRepository.deleteById(id);
+    }
 }
