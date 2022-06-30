@@ -27,4 +27,10 @@ public class DespesaService {
     public void excluir(Integer id){
         despesaRepository.deleteById(id);
     }
+
+    public DespesaDto buscarPorId(Integer id){
+        Despesa despesa = despesaRepository.findById(id).get();
+        DespesaDto despesaDto = despesa.toDespesaDto();
+        return despesaDto;
+    }
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Nova despesa</title>
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-dark bg-secondary">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link active" href="/">Home</a>
+        </li>
+    </ul>
+
+</nav>
+
+<div class="container mt-3">
+
+    <h1>Editar despesa</h1>
+    <hr>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <form th:object="${despesaDto}" action="/editar-despesa" method="post" class="card-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Descrição da despesa</label>
+<!--                        <span th:text="${despesa.descricao}"></span>-->
+                        <input th:field="*{descricao}" th:value="*{descricao}" class="form-control" th:errorClass="is-invalid"/>
+                        <div th:errors="*{descricao}" th:class="error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Valor gasto</label>
+                        <input th:field="*{valorGasto}" class="form-control" th:errorClass="is-invalid">
+                        <div th:errors="*{valorGasto}" th:class="error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Data da despesa</label>
+                        <input th:field="*{dataDespesa}" type="date" class="form-control" th:errorClass="is-invalid">
+                        <div th:errors="*{dataDespesa}" th:class="error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

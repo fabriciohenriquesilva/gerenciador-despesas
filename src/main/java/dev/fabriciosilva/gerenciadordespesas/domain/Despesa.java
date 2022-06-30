@@ -1,5 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
+import dev.fabriciosilva.gerenciadordespesas.dto.DespesaDto;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -48,5 +50,14 @@ public class Despesa {
 
     public void setDataDespesa(LocalDate dataDespesa) {
         this.dataDespesa = dataDespesa;
+    }
+
+    public DespesaDto toDespesaDto(){
+        DespesaDto despesaDto = new DespesaDto();
+        despesaDto.setDescricao(this.descricao);
+        despesaDto.setValorGasto(String.valueOf(this.valorGasto));
+        despesaDto.setDataDespesa(String.valueOf(this.dataDespesa));
+
+        return despesaDto;
     }
 }

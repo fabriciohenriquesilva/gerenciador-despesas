@@ -50,4 +50,11 @@ public class DespesasController {
         return "redirect:/";
     }
 
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model){
+        DespesaDto despesaDto = despesaService.buscarPorId(id);
+        model.addAttribute("despesaDto", despesaDto);
+        return "despesa/despesaDetails";
+    }
+
 }
