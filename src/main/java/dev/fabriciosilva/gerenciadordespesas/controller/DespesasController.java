@@ -1,7 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.controller;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
-import dev.fabriciosilva.gerenciadordespesas.dto.DespesaDto;
+import dev.fabriciosilva.gerenciadordespesas.request.DespesaRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.DespesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,16 +30,16 @@ public class DespesasController {
     }
 
     @GetMapping("/nova-despesa")
-    public String getDespesaForm(DespesaDto despesaDto){
+    public String getDespesaForm(DespesaRequestForm despesaRequestForm){
         return "despesa/formulario";
     }
 
     @PostMapping("/salvar-despesa")
-    public String novo(@Valid DespesaDto despesaDto, BindingResult result){
+    public String novo(@Valid DespesaRequestForm despesaRequestForm, BindingResult result){
         if(result.hasErrors()){
             return "despesa/formulario";
         }
-        despesaService.novo(despesaDto);
+        despesaService.novo(despesaRequestForm);
 
         return "redirect:/";
     }
@@ -50,11 +50,21 @@ public class DespesasController {
         return "redirect:/";
     }
 
-    @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Integer id, Model model){
-        DespesaDto despesaDto = despesaService.buscarPorId(id);
-        model.addAttribute("despesaDto", despesaDto);
+    @GetMapping("/visualizar/{id}")
+    public String visualizar(@PathVariable Integer id, Model model){
+        DespesaRequestForm despesaRequestForm = despesaService.buscarPorId(id);
+        model.addAttribute("despesaRequestForm", despesaRequestForm);
         return "despesa/despesaDetails";
+    }
+
+    @PostMapping("/editar-despesa")
+    public String editar(@Valid DespesaRequestForm despesaRequestForm, BindingResult result){
+        if(result.hasErrors()){
+            return "despesa/formulario";
+        }
+        despesaService.editar(despesaRequestForm);
+
+        return "redirect:/";
     }
 
 }

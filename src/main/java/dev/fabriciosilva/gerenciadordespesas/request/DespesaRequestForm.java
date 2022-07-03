@@ -1,13 +1,15 @@
-package dev.fabriciosilva.gerenciadordespesas.dto;
+package dev.fabriciosilva.gerenciadordespesas.request;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class DespesaDto {
+public class DespesaRequestForm {
 
+    private String id;
     @NotBlank(message = "É obrigatório preencher o campo descrição")
     private String descricao;
     @NotBlank(message = "É obrigatório preencher o campo valor gasto com um valor númerico")
@@ -39,8 +41,17 @@ public class DespesaDto {
         this.dataDespesa = dataDespesa;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     public Despesa toDespesa() {
         Despesa despesa = new Despesa();
+        despesa.setId(Integer.valueOf(this.id));
         despesa.setDescricao(descricao);
         despesa.setValorGasto(new BigDecimal(valorGasto));
 

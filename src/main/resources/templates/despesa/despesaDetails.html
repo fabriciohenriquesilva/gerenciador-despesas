@@ -37,11 +37,15 @@
     <div class="row justify-content-center">
         <div class="col-6">
             <div class="card">
-                <form th:object="${despesaDto}" action="/editar-despesa" method="post" class="card-body">
+                <form th:object="${despesaRequestForm}" action="/editar-despesa" method="post" class="card-body">
 
                     <div class="mb-3">
+                        <label class="form-label">Id</label>
+                        <input readonly th:field="*{id}" th:value="*{id}" class="form-control" th:errorClass="is-invalid"/>
+                        <div th:errors="*{id}" th:class="error"></div>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Descrição da despesa</label>
-<!--                        <span th:text="${despesa.descricao}"></span>-->
                         <input th:field="*{descricao}" th:value="*{descricao}" class="form-control" th:errorClass="is-invalid"/>
                         <div th:errors="*{descricao}" th:class="error"></div>
                     </div>
