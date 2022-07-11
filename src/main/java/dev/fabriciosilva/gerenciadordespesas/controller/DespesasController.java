@@ -1,7 +1,8 @@
 package dev.fabriciosilva.gerenciadordespesas.controller;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
-import dev.fabriciosilva.gerenciadordespesas.request.DespesaRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.DespesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,16 +31,16 @@ public class DespesasController {
     }
 
     @GetMapping("/nova-despesa")
-    public String getDespesaForm(DespesaRequestForm despesaRequestForm){
+    public String getDespesaForm(DespesaPutRequestForm despesaPutRequestForm){
         return "despesa/formulario";
     }
 
     @PostMapping("/salvar-despesa")
-    public String novo(@Valid DespesaRequestForm despesaRequestForm, BindingResult result){
+    public String novo(@Valid DespesaPostRequestForm despesaPostRequestForm, BindingResult result){
         if(result.hasErrors()){
             return "despesa/formulario";
         }
-        despesaService.novo(despesaRequestForm);
+        despesaService.novo(despesaPostRequestForm);
 
         return "redirect:/";
     }
@@ -52,17 +53,17 @@ public class DespesasController {
 
     @GetMapping("/visualizar/{id}")
     public String visualizar(@PathVariable Integer id, Model model){
-        DespesaRequestForm despesaRequestForm = despesaService.buscarPorId(id);
-        model.addAttribute("despesaRequestForm", despesaRequestForm);
+        DespesaPutRequestForm despesaPutRequestForm = despesaService.buscarPorId(id);
+        model.addAttribute("despesaPutRequestForm", despesaPutRequestForm);
         return "despesa/despesaDetails";
     }
 
     @PostMapping("/editar-despesa")
-    public String editar(@Valid DespesaRequestForm despesaRequestForm, BindingResult result){
+    public String editar(@Valid DespesaPutRequestForm despesaPutRequestForm, BindingResult result){
         if(result.hasErrors()){
             return "despesa/formulario";
         }
-        despesaService.editar(despesaRequestForm);
+        despesaService.editar(despesaPutRequestForm);
 
         return "redirect:/";
     }

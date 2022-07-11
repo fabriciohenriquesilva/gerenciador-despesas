@@ -1,6 +1,6 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
-import dev.fabriciosilva.gerenciadordespesas.request.DespesaRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -52,13 +52,13 @@ public class Despesa {
         this.dataDespesa = dataDespesa;
     }
 
-    public DespesaRequestForm toDespesaDto(){
-        DespesaRequestForm despesaRequestForm = new DespesaRequestForm();
-        despesaRequestForm.setId(String.valueOf(this.id));
-        despesaRequestForm.setDescricao(this.descricao);
-        despesaRequestForm.setValorGasto(String.valueOf(this.valorGasto));
-        despesaRequestForm.setDataDespesa(String.valueOf(this.dataDespesa));
+    public DespesaPutRequestForm toDespesaDto(){
+        DespesaPutRequestForm despesaPutRequestForm = new DespesaPutRequestForm();
+        despesaPutRequestForm.setId(String.valueOf(this.id));
+        despesaPutRequestForm.setDescricao(this.descricao);
+        despesaPutRequestForm.setValorGasto(String.valueOf(this.valorGasto));
+        despesaPutRequestForm.setDataDespesa(String.valueOf(this.dataDespesa));
 
-        return despesaRequestForm;
+        return despesaPutRequestForm;
     }
 }

@@ -3,11 +3,10 @@ package dev.fabriciosilva.gerenciadordespesas.request;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class DespesaRequestForm {
+public class DespesaPutRequestForm {
 
     private String id;
     @NotBlank(message = "É obrigatório preencher o campo descrição")

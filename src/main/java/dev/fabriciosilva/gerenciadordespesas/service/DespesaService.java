@@ -1,7 +1,8 @@
 package dev.fabriciosilva.gerenciadordespesas.service;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
-import dev.fabriciosilva.gerenciadordespesas.request.DespesaRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.repository.DespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class DespesaService {
     @Autowired
     private DespesaRepository despesaRepository;
 
-    public Despesa novo(DespesaRequestForm despesaRequestForm){
-        Despesa despesa = despesaRequestForm.toDespesa();
+    public Despesa novo(DespesaPostRequestForm despesaPostRequestForm){
+        Despesa despesa = despesaPostRequestForm.toDespesa();
         despesaRepository.save(despesa);
         return despesa;
     }
@@ -29,20 +30,20 @@ public class DespesaService {
         despesaRepository.deleteById(id);
     }
 
-    public DespesaRequestForm buscarPorId(Integer id){
+    public DespesaPutRequestForm buscarPorId(Integer id){
         Despesa despesa = despesaRepository.findById(id).get();
-        DespesaRequestForm despesaRequestForm = despesa.toDespesaDto();
-        return despesaRequestForm;
+        DespesaPutRequestForm despesaPutRequestForm = despesa.toDespesaDto();
+        return despesaPutRequestForm;
     }
 
-    public void editar(DespesaRequestForm despesaRequestForm){
-        String despesaId = despesaRequestForm.getId();
+    public void editar(DespesaPutRequestForm despesaPutRequestForm){
+        String despesaId = despesaPutRequestForm.getId();
         Optional<Despesa> optional = despesaRepository.findById(Integer.valueOf(despesaId));
 
         boolean despesaExiste = optional.isPresent();
 
         if(despesaExiste){
-            despesaRepository.save(despesaRequestForm.toDespesa());
+            despesaRepository.save(despesaPutRequestForm.toDespesa());
         }
     }
 }
