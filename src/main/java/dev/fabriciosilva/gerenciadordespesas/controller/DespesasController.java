@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -29,7 +28,7 @@ public class DespesasController {
     @GetMapping
     public String index(Pageable pageable, Model model){
         int page = pageable.getPageNumber();
-        PageRequest paginacao = PageRequest.of(page, 5);
+        PageRequest paginacao = PageRequest.of(page, 10);
 
         Page<Despesa> despesas = despesaService.listarTodos(paginacao);
         model.addAttribute("despesas", despesas);
