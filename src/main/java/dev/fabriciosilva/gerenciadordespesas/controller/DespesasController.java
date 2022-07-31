@@ -5,6 +5,9 @@ import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.DespesaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +27,14 @@ public class DespesasController {
     private DespesaService despesaService;
 
     @GetMapping
-    public String index(Model model){
-        List<Despesa> despesas = despesaService.listarTodos();
+    public String index(Pageable pageable, Model model){
+        int page = pageable.getPageNumber();
+        PageRequest paginacao = PageRequest.of(page, 5);
+
+        Page<Despesa> despesas = despesaService.listarTodos(paginacao);
         model.addAttribute("despesas", despesas);
+        model.addAttribute("paginacao", paginacao);
+
         return "index";
     }
 

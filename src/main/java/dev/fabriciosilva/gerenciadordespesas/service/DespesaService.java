@@ -5,6 +5,9 @@ import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.repository.DespesaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +25,8 @@ public class DespesaService {
         return despesa;
     }
 
-    public List<Despesa> listarTodos(){
-        return despesaRepository.findAll();
+    public Page<Despesa> listarTodos(Pageable pageable){
+        return despesaRepository.findAll(pageable);
     }
 
     public void excluir(Integer id){

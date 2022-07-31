@@ -58,6 +58,48 @@
         </tr>
         </tbody>
     </table>
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link"
+                   th:href="@{/?page=0}">Primeira</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   th:if="${paginacao.getPageNumber > 0}"
+                   th:href="@{/(page=${paginacao.getPageNumber - 1})}">Anterior</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link"
+                   th:if="${paginacao.getPageNumber > 0}"
+                   th:text="${paginacao.getPageNumber - 1} + 1"
+                   th:href="@{/(page=${paginacao.getPageNumber - 1})}">-1</a>
+            </li>
+            <li class="page-item active">
+                <span class="page-link"
+                      th:text="${paginacao.getPageNumber} + 1">Atual</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   th:if="${(paginacao.getPageNumber + 1) < despesas.getTotalPages}"
+                   th:text="${paginacao.getPageNumber + 1} + 1"
+                   th:href="@{/(page=${paginacao.getPageNumber + 1})}">+1</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link"
+                   th:if="${(paginacao.getPageNumber + 1) < despesas.getTotalPages}"
+                   th:href="@{/(page=${paginacao.getPageNumber + 1})}">Próxima</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   th:href="@{/(page=${despesas.getTotalPages - 1})}">Última</a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 
 </body>
