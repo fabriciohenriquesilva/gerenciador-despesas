@@ -1,6 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.controller;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
+import dev.fabriciosilva.gerenciadordespesas.request.CategoriaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,11 @@ public class CategoriaController {
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
         return "categoria/listaCategorias";
+    }
+
+    @GetMapping("/nova-categoria")
+    public String getCategoriaForm(CategoriaPostRequestForm categoriaPostRequestForm){
+        return "categoria/categoriaForm";
     }
 
 }
