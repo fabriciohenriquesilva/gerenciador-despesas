@@ -1,9 +1,16 @@
 # Gerenciador de Despesas
-___
 
-## Descrição do Projeto
-___
-Projeto em desenvolvimento criado com o objetivo de facilitar a 
+## Projeto em Desenvolvimento
+Este projeto está em desenvolvimento e sofrerá mudanças ao longo do tempo.
+
+### :construction: Melhorias a serem feitas
+- Definir uma interface padrão das operações dos controllers;
+- Utilizar um template com o Thymeleaf afim de reduzir código front-end repetido;
+- Padronizar as rotas;
+- Implementar testes na aplicação;
+
+## :scroll: Descrição do Projeto
+O projeto tem como objetivo facilitar a 
 organização dos gastos financeiros dos seus usuários.
 
 Este sistema tem por finalidade ser uma aplicação web server-side rendering
