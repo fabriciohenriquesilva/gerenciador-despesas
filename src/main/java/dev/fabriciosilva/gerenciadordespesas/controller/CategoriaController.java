@@ -27,7 +27,7 @@ public class CategoriaController {
     public String listaCategorias(Model model){
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
-        return "categoria/listaCategorias";
+        return "categoria/categoriaList";
     }
 
     @GetMapping("/nova-categoria")
@@ -49,13 +49,13 @@ public class CategoriaController {
     public String visualize(@PathVariable Long id, Model pagina){
         CategoriaPutRequestForm categoriaPutRequestForm = categoriaService.buscarPorId(id);
         pagina.addAttribute("categoriaPutRequestForm", categoriaPutRequestForm);
-        return "categoria/categoriaDetalhes";
+        return "categoria/categoriaDetails";
     }
 
     @PostMapping("/editar")
     public String edit(@Valid CategoriaPutRequestForm form, BindingResult result){
         if(result.hasErrors()){
-            return "categoria/categoriaDetalhes";
+            return "categoria/categoriaDetails";
         }
         categoriaService.edit(form);
         return "redirect:/categoria";
