@@ -1,5 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
+import dev.fabriciosilva.gerenciadordespesas.request.CategoriaPutRequestForm;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +31,13 @@ public class Categoria {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public CategoriaPutRequestForm toCategoriaDto(){
+        CategoriaPutRequestForm categoriaPutRequestForm = new CategoriaPutRequestForm();
+        categoriaPutRequestForm.setId(this.id);
+        categoriaPutRequestForm.setNome(this.nome);
+
+        return categoriaPutRequestForm;
     }
 }

@@ -44,7 +44,7 @@
             <tr th:each="categoria : ${categorias}">
                 <td th:text="${categoria.id}"></td>
                 <td th:text="${categoria.nome}"></td>
-                <td>i</td>
+                <td><a class="btn btn-primary" th:href="@{/categoria/detalhes/{id}(id=${categoria.id})}">Visualizar</a></td>
             </tr>
         </tbody>
     </table>
