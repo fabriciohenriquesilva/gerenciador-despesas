@@ -55,4 +55,10 @@ public class CategoriaController {
         return "redirect:/categoria";
     }
 
+    @PostMapping("/delete/{id}")
+    public String excluir(@PathVariable Long id){
+        categoriaService.excluir(id);
+        return "redirect:/categoria";
+    }
+
 }

@@ -32,12 +32,13 @@
         </div>
     </div>
 
-    <table class="table table-hover">
+    <table class="table table-hover mt-3">
         <thead class="table-light">
             <tr>
                 <th>#</th>
                 <th>Nome</th>
                 <th>Visualizar</th>
+                <th>Excluir</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -45,6 +46,11 @@
                 <td th:text="${categoria.id}"></td>
                 <td th:text="${categoria.nome}"></td>
                 <td><a class="btn btn-primary" th:href="@{/categoria/detalhes/{id}(id=${categoria.id})}">Visualizar</a></td>
+                <td>
+                    <form th:object="${despesa}" th:action="@{/categoria/delete/{id}(id=${categoria.id})}" method="post">
+                        <input class="btn btn-danger" type="submit" value="Excluir"/>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
