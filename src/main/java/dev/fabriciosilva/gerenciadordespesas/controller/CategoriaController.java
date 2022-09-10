@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -45,6 +46,13 @@ public class CategoriaController {
         CategoriaPutRequestForm categoriaPutRequestForm = categoriaService.buscarPorId(id);
         pagina.addAttribute("categoriaPutRequestForm", categoriaPutRequestForm);
         return "categoria/categoriaDetalhes";
+    }
+
+    @PostMapping("/editar")
+    public String edit(@Valid CategoriaPutRequestForm form){
+        categoriaService.edit(form);
+
+        return "redirect:/categoria";
     }
 
 }

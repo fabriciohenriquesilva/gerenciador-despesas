@@ -31,4 +31,14 @@ public class CategoriaService {
         Categoria categoria = optional.get();
         return categoria.toCategoriaDto();
     }
+
+    public void edit(CategoriaPutRequestForm form){
+        String categoriaId = form.getId();
+        Long id = Long.valueOf(categoriaId);
+        Optional<Categoria> categoriaBuscada = categoriaRepository.findById(id);
+        if(categoriaBuscada.isPresent()){
+            Categoria categoriaEditada = form.toCategoria();
+            categoriaRepository.save(categoriaEditada);
+        }
+    }
 }

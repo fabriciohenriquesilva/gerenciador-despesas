@@ -35,7 +35,7 @@ public class Categoria {
 
     public CategoriaPutRequestForm toCategoriaDto(){
         CategoriaPutRequestForm categoriaPutRequestForm = new CategoriaPutRequestForm();
-        categoriaPutRequestForm.setId(this.id);
+        categoriaPutRequestForm.setId(String.valueOf(this.id));
         categoriaPutRequestForm.setNome(this.nome);
 
         return categoriaPutRequestForm;

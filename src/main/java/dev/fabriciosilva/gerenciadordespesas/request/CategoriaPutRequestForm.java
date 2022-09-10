@@ -6,15 +6,15 @@ import javax.validation.constraints.NotBlank;
 
 public class CategoriaPutRequestForm {
 
-    private Long id;
+    private String id;
     @NotBlank(message = "A categoria precisa ter um nome")
     private String nome;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ public class CategoriaPutRequestForm {
 
     public Categoria toCategoria(){
         Categoria categoria = new Categoria();
-        categoria.setId(this.id);
+        categoria.setId(Long.valueOf(this.id));
         categoria.setNome(this.nome);
 
         return categoria;
