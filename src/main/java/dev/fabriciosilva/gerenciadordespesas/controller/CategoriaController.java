@@ -7,6 +7,7 @@ import dev.fabriciosilva.gerenciadordespesas.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,9 +36,12 @@ public class CategoriaController {
     }
 
     @PostMapping("/salvar")
-    public String save(CategoriaPostRequestForm categoriaPostRequestForm){
+    public String save(@Valid CategoriaPostRequestForm categoriaPostRequestForm,
+                       BindingResult result){
+        if(result.hasErrors()){
+            return "categoria/categoriaForm";
+        }
         categoriaService.save(categoriaPostRequestForm);
-
         return "redirect:/categoria";
     }
 
@@ -49,9 +53,11 @@ public class CategoriaController {
     }
 
     @PostMapping("/editar")
-    public String edit(@Valid CategoriaPutRequestForm form){
+    public String edit(@Valid CategoriaPutRequestForm form, BindingResult result){
+        if(result.hasErrors()){
+            return "categoria/categoriaDetalhes";
+        }
         categoriaService.edit(form);
-
         return "redirect:/categoria";
     }
 
