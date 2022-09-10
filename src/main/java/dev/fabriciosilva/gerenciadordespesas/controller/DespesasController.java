@@ -38,7 +38,7 @@ public class DespesasController {
     }
 
     @GetMapping("/nova-despesa")
-    public String getDespesaForm(DespesaPutRequestForm despesaPutRequestForm){
+    public String getDespesaForm(DespesaPostRequestForm despesaPostRequestForm){
         return "despesa/despesaForm";
     }
 
@@ -68,7 +68,7 @@ public class DespesasController {
     @PostMapping("/editar-despesa")
     public String editar(@Valid DespesaPutRequestForm despesaPutRequestForm, BindingResult result){
         if(result.hasErrors()){
-            return "despesa/despesaForm";
+            return "despesa/despesaDetails";
         }
         despesaService.editar(despesaPutRequestForm);
 
