@@ -76,12 +76,13 @@ public class Despesa {
         this.subcategoria = subcategoria;
     }
 
-    public DespesaPutRequestForm toDespesaDto(){
+    public DespesaPutRequestForm toDespesaDto() {
         DespesaPutRequestForm despesaPutRequestForm = new DespesaPutRequestForm();
         despesaPutRequestForm.setId(String.valueOf(this.id));
         despesaPutRequestForm.setDescricao(this.descricao);
         despesaPutRequestForm.setValorGasto(String.valueOf(this.valorGasto));
         despesaPutRequestForm.setDataDespesa(String.valueOf(this.dataDespesa));
+        despesaPutRequestForm.setCategoria(categoria != null ? categoria.getNome() : "0");
 
         return despesaPutRequestForm;
     }

@@ -16,6 +16,8 @@ public class DespesaPutRequestForm {
     @NotBlank(message = "É obrigatório preencher o campo de data da despesa")
     private String dataDespesa;
 
+    private String categoria;
+
     public String getDescricao() {
         return descricao;
     }
@@ -46,6 +48,14 @@ public class DespesaPutRequestForm {
 
     public String getId() {
         return id;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public Despesa toDespesa() {

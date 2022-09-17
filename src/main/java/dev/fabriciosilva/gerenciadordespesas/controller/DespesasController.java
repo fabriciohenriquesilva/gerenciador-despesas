@@ -72,6 +72,10 @@ public class DespesasController {
     public String visualizar(@PathVariable Integer id, Model model){
         DespesaPutRequestForm despesaPutRequestForm = despesaService.buscarPorId(id);
         model.addAttribute("despesaPutRequestForm", despesaPutRequestForm);
+
+        List<Categoria> categorias = categoriaService.listarTodos();
+        model.addAttribute("categorias", categorias);
+
         return "despesa/despesaDetails";
     }
 
