@@ -17,6 +17,14 @@ public class Despesa {
     private BigDecimal valorGasto;
     private LocalDate dataDespesa;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "subcategoria_id", referencedColumnName = "id")
+    private Subcategoria subcategoria;
+
     public Despesa() {
     }
 

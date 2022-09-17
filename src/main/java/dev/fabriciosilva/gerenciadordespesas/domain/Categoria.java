@@ -17,6 +17,9 @@ public class Categoria {
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Subcategoria> subcategorias = new ArrayList<>();
 
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    private List<Despesa> despesas = new ArrayList<>();
+
     public Long getId() {
         return id;
     }

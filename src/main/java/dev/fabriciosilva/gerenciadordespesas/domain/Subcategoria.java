@@ -1,6 +1,8 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "subcategoria")
@@ -13,6 +15,9 @@ public class Subcategoria {
     @ManyToOne
     @JoinColumn(name = "categoria_id", referencedColumnName = "id")
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY)
+    private List<Despesa> despesa = new ArrayList<>();
 
     public Long getId() {
         return id;
