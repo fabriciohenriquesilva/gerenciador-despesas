@@ -1,8 +1,10 @@
 package dev.fabriciosilva.gerenciadordespesas.controller;
 
+import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.service.CategoriaService;
 import dev.fabriciosilva.gerenciadordespesas.service.DespesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -24,6 +27,8 @@ public class DespesasController {
 
     @Autowired
     private DespesaService despesaService;
+    @Autowired
+    private CategoriaService categoriaService;
 
     @GetMapping
     public String index(Pageable pageable, Model model){
@@ -38,7 +43,12 @@ public class DespesasController {
     }
 
     @GetMapping("/nova-despesa")
-    public String getDespesaForm(DespesaPostRequestForm despesaPostRequestForm){
+    public String getDespesaForm(Model model,
+                                 DespesaPostRequestForm despesaPostRequestForm){
+
+        List<Categoria> categorias = categoriaService.listarTodos();
+        model.addAttribute("categorias", categorias);
+
         return "despesa/despesaForm";
     }
 

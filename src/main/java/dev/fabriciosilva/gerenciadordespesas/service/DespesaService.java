@@ -1,6 +1,8 @@
 package dev.fabriciosilva.gerenciadordespesas.service;
 
+import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
+import dev.fabriciosilva.gerenciadordespesas.repository.CategoriaRepository;
 import dev.fabriciosilva.gerenciadordespesas.repository.DespesaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
@@ -17,8 +19,21 @@ public class DespesaService {
     @Autowired
     private DespesaRepository despesaRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     public Despesa novo(DespesaPostRequestForm despesaPostRequestForm){
         Despesa despesa = despesaPostRequestForm.toDespesa();
+
+        Long categoriaId = Long.valueOf(despesaPostRequestForm.getCategoria());
+        if(categoriaId != 0){
+            Optional<Categoria> optionalCategoria = categoriaRepository.findById(categoriaId);
+            if(optionalCategoria.isPresent()){
+                Categoria categoria = optionalCategoria.get();
+                despesa.setCategoria(categoria);
+            }
+        }
+
         despesaRepository.save(despesa);
         return despesa;
     }

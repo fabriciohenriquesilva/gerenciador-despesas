@@ -60,6 +60,22 @@ public class Despesa {
         this.dataDespesa = dataDespesa;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Subcategoria getSubcategoria() {
+        return subcategoria;
+    }
+
+    public void setSubcategoria(Subcategoria subcategoria) {
+        this.subcategoria = subcategoria;
+    }
+
     public DespesaPutRequestForm toDespesaDto(){
         DespesaPutRequestForm despesaPutRequestForm = new DespesaPutRequestForm();
         despesaPutRequestForm.setId(String.valueOf(this.id));

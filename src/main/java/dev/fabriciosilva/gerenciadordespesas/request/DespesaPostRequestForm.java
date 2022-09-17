@@ -15,6 +15,8 @@ public class DespesaPostRequestForm {
     @NotBlank(message = "É obrigatório preencher o campo de data da despesa")
     private String dataDespesa;
 
+    private String categoria;
+
     public String getDescricao() {
         return descricao;
     }
@@ -39,6 +41,14 @@ public class DespesaPostRequestForm {
         this.dataDespesa = dataDespesa;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
     public Despesa toDespesa() {
         Despesa despesa = new Despesa();
         despesa.setDescricao(descricao);
@@ -46,7 +56,6 @@ public class DespesaPostRequestForm {
 
         LocalDate data = LocalDate.parse(dataDespesa);
         despesa.setDataDespesa(data);
-
         return despesa;
     }
 }
