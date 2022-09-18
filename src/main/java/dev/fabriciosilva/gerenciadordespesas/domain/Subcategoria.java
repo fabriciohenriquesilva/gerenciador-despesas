@@ -1,5 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
+import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPutRequestForm;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,8 @@ import java.util.List;
 @Table(name = "subcategoria")
 public class Subcategoria {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
 
@@ -33,5 +36,13 @@ public class Subcategoria {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public SubcategoriaPutRequestForm toSubcategoriaDto() {
+        SubcategoriaPutRequestForm subcategoriaPutRequestForm = new SubcategoriaPutRequestForm();
+        subcategoriaPutRequestForm.setId(String.valueOf(this.id));
+        subcategoriaPutRequestForm.setNome(this.nome);
+
+        return subcategoriaPutRequestForm;
     }
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://thymeleaf.org">
+<head th:replace="~{base :: head('Subcategoria | Cadastro')}"></head>
+<body>
+
+<nav th:replace="~{base :: navbar}"></nav>
+
+<div class="container mt-3">
+
+    <h1>Criar nova subcategoria</h1>
+    <hr>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <form th:object="${subcategoriaPostRequestForm}" action="/subcategoria/salvar" method="post" class="card-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome da subcategoria</label>
+                        <input th:field="*{nome}" class="form-control" th:errorClass="is-invalid"/>
+                        <div th:errors="*{nome}" th:class="error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://thymeleaf.org">
+<head th:replace="~{base :: head('Subcategorias | Homepage')}"></head>
+<body>
+
+<nav th:replace="~{base :: navbar}"></nav>
+
+<div class="container mt-3">
+    <h1>Lista de Subcategorias</h1>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-success" href="/subcategoria/nova-subcategoria">Novo</a>
+            <a class="btn btn-primary" href="/">Home</a>
+        </div>
+    </div>
+
+    <table class="table table-hover mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Visualizar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr th:each="subcategoria : ${subcategorias}">
+                <td th:text="${subcategoria.id}"></td>
+                <td th:text="${subcategoria.nome}"></td>
+                <td><a class="btn btn-primary" th:href="@{/subcategoria/detalhes/{id}(id=${subcategoria.id})}">Visualizar</a></td>
+                <td>
+                    <form th:object="${subcategoria}" th:action="@{/subcategoria/delete/{id}(id=${subcategoria.id})}" method="post">
+                        <input class="btn btn-danger" type="submit" value="Excluir"/>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
