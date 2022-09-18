@@ -59,7 +59,19 @@ public class DespesaService {
         boolean despesaExiste = optional.isPresent();
 
         if(despesaExiste){
-            despesaRepository.save(despesaPutRequestForm.toDespesa());
+
+            Despesa despesa = despesaPutRequestForm.toDespesa();
+
+            Long categoriaId = Long.valueOf(despesaPutRequestForm.getCategoria());
+            if(categoriaId != 0){
+                Optional<Categoria> optionalCategoria = categoriaRepository.findById(categoriaId);
+                if(optionalCategoria.isPresent()){
+                    Categoria categoria = optionalCategoria.get();
+                    despesa.setCategoria(categoria);
+                }
+            }
+
+            despesaRepository.save(despesa);
         }
     }
 }
