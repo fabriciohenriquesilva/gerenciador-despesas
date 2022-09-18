@@ -3,11 +3,11 @@
 ## Projeto em Desenvolvimento
 Este projeto está em desenvolvimento e sofrerá mudanças ao longo do tempo.
 
-### :construction: Melhorias a serem feitas
-- Definir uma interface padrão das operações dos controllers;
-- Utilizar um template com o Thymeleaf afim de reduzir código front-end repetido;
-- Padronizar as rotas;
-- Implementar testes na aplicação;
+### :construction: Melhorias a serem feitas no código/lógica
+- [ ] Definir uma interface padrão das operações dos controllers;
+- [x] Utilizar templates com o Thymeleaf afim de reduzir código front-end;
+- [ ] Padronizar as rotas;
+- [ ] Implementar testes na aplicação;
 
 ## :scroll: Descrição do Projeto
 O projeto tem como objetivo facilitar a 
@@ -32,8 +32,8 @@ de fácil navegação e utilização.
 Este sistema tem por objetivos atender aos seguintes requisitos:
 
 - [x] Cadastro de Despesas
-- [ ] Cadastro de Categorias
-- [ ] Cadastro de Subcategorias
+- [x] Cadastro de Categorias
+- [x] Cadastro de Subcategorias
 - [ ] Cadastro de fornecedores/credores
 - [ ] Listar despesas por categoria
 - [ ] Geração de relatórios em PDF
