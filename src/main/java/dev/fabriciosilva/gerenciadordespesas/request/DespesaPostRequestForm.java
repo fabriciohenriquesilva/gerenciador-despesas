@@ -52,7 +52,7 @@ public class DespesaPostRequestForm {
     public Despesa toDespesa() {
         Despesa despesa = new Despesa();
         despesa.setDescricao(descricao);
-        despesa.setValorGasto(new BigDecimal(valorGasto));
+        despesa.setValorGasto(new BigDecimal(valorGasto.replace(',', '.')));
 
         LocalDate data = LocalDate.parse(dataDespesa);
         despesa.setDataDespesa(data);

@@ -22,7 +22,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Valor gasto</label>
-                        <input th:field="*{valorGasto}" class="form-control" th:errorClass="is-invalid">
+                        <input th:field="*{valorGasto}" type="number" pattern="[0-9]+,[0-9]{0,2}" step="0.01" class="form-control" th:errorClass="is-invalid">
                         <div th:errors="*{valorGasto}" th:class="error"></div>
                     </div>
                     <div class="mb-3">
