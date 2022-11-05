@@ -10,6 +10,8 @@ public class SubcategoriaPutRequestForm {
     @NotBlank(message = "A subcategoria precisa ter um nome")
     private String nome;
 
+    private String categoria;
+
     public String getId() {
         return id;
     }
@@ -24,6 +26,14 @@ public class SubcategoriaPutRequestForm {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public Subcategoria toSubcategoria(){

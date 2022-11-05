@@ -1,8 +1,10 @@
 package dev.fabriciosilva.gerenciadordespesas.controller;
 
+import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
 import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPutRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.service.CategoriaService;
 import dev.fabriciosilva.gerenciadordespesas.service.SubcategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ public class SubcategoriaController {
     @Autowired
     private SubcategoriaService subcategoriaService;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     @GetMapping
     public String listaCategorias(Model model) {
         List<Subcategoria> subcategorias = subcategoriaService.listarTodos();
@@ -31,7 +36,11 @@ public class SubcategoriaController {
     }
 
     @GetMapping("/nova-subcategoria")
-    public String getCategoriaForm(SubcategoriaPostRequestForm subcategoriaPostRequestForm) {
+    public String getCategoriaForm(Model model,
+                                   SubcategoriaPostRequestForm subcategoriaPostRequestForm) {
+        List<Categoria> categorias = categoriaService.listarTodos();
+        model.addAttribute("categorias", categorias);
+
         return "subcategoria/subcategoriaForm";
     }
 
@@ -49,6 +58,10 @@ public class SubcategoriaController {
     public String visualize(@PathVariable Long id, Model pagina) {
         SubcategoriaPutRequestForm subcategoriaPutRequestForm = subcategoriaService.buscarPorId(id);
         pagina.addAttribute("subcategoriaPutRequestForm", subcategoriaPutRequestForm);
+
+        List<Categoria> categorias = categoriaService.listarTodos();
+        pagina.addAttribute("categorias", categorias);
+
         return "subcategoria/subcategoriaDetails";
     }
 

@@ -20,6 +20,15 @@
                         <input th:field="*{nome}" class="form-control" th:errorClass="is-invalid"/>
                         <div th:errors="*{nome}" th:class="error"></div>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoria</label>
+                        <br>
+                        <select th:field="*{categoria}" class="form-select">
+                            <option selected th:value="0">Selecione uma categoria</option>
+                            <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nome}"></option>
+                        </select>
+                        <div th:errors="*{categoria}" th:class="error"></div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>
             </div>

@@ -38,10 +38,19 @@ public class Subcategoria {
         this.nome = nome;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     public SubcategoriaPutRequestForm toSubcategoriaDto() {
         SubcategoriaPutRequestForm subcategoriaPutRequestForm = new SubcategoriaPutRequestForm();
         subcategoriaPutRequestForm.setId(String.valueOf(this.id));
         subcategoriaPutRequestForm.setNome(this.nome);
+        subcategoriaPutRequestForm.setCategoria(this.categoria != null ? categoria.getNome() : "0");
 
         return subcategoriaPutRequestForm;
     }
