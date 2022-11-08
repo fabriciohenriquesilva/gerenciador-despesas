@@ -2,6 +2,7 @@ package dev.fabriciosilva.gerenciadordespesas.service;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
+import dev.fabriciosilva.gerenciadordespesas.dto.DespesaDto;
 import dev.fabriciosilva.gerenciadordespesas.repository.CategoriaRepository;
 import dev.fabriciosilva.gerenciadordespesas.repository.DespesaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
@@ -44,6 +45,14 @@ public class DespesaService {
 
     public void excluir(Integer id){
         despesaRepository.deleteById(id);
+    }
+
+    public DespesaDto detalhar(Integer id) {
+        Optional<Despesa> optional = despesaRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new RuntimeException("Not found");
+        }
+        return new DespesaDto(optional.get());
     }
 
     public DespesaPutRequestForm buscarPorId(Integer id){

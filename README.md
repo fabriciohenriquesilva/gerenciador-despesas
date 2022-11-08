@@ -8,6 +8,9 @@ Este projeto está em desenvolvimento e sofrerá mudanças ao longo do tempo.
 - [x] Utilizar templates com o Thymeleaf afim de reduzir código front-end;
 - [ ] Padronizar as rotas;
 - [ ] Implementar testes na aplicação;
+- [ ] Melhorar a lógica das classes de serviço;
+- [ ] Criar Exceptions customizadas;
+- [ ] Melhorar as classes DTO;
 
 ## :scroll: Descrição do Projeto
 O projeto tem como objetivo facilitar a 
@@ -34,6 +37,7 @@ Este sistema tem por objetivos atender aos seguintes requisitos:
 - [x] Cadastro de Despesas
 - [x] Cadastro de Categorias
 - [x] Cadastro de Subcategorias
+- [ ] API Rest dos recursos
 - [ ] Cadastro de fornecedores/credores
 - [ ] Listar despesas por categoria
 - [ ] Geração de relatórios em PDF

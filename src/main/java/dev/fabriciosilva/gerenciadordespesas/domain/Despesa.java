@@ -1,6 +1,8 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
+import dev.fabriciosilva.gerenciadordespesas.dto.DespesaDto;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
