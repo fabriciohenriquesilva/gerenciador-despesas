@@ -1,8 +1,6 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
-import dev.fabriciosilva.gerenciadordespesas.dto.DespesaDto;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,6 +24,10 @@ public class Despesa {
     @ManyToOne
     @JoinColumn(name = "subcategoria_id", referencedColumnName = "id")
     private Subcategoria subcategoria;
+
+    @ManyToOne
+    @JoinColumn(name = "credor_id", referencedColumnName = "id")
+    private Pessoa credor;
 
     public Despesa() {
     }
@@ -76,6 +78,14 @@ public class Despesa {
 
     public void setSubcategoria(Subcategoria subcategoria) {
         this.subcategoria = subcategoria;
+    }
+
+    public Pessoa getCredor() {
+        return credor;
+    }
+
+    public void setCredor(Pessoa credor) {
+        this.credor = credor;
     }
 
     public DespesaPutRequestForm toDespesaDto() {
