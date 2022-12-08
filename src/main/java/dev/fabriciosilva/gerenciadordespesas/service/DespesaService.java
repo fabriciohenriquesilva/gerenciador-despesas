@@ -2,9 +2,15 @@ package dev.fabriciosilva.gerenciadordespesas.service;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
+import dev.fabriciosilva.gerenciadordespesas.domain.Pessoa;
+import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
 import dev.fabriciosilva.gerenciadordespesas.dto.DespesaDto;
+import dev.fabriciosilva.gerenciadordespesas.exception.FormValidationException;
+import dev.fabriciosilva.gerenciadordespesas.exception.RecursoInexistenteException;
 import dev.fabriciosilva.gerenciadordespesas.repository.CategoriaRepository;
 import dev.fabriciosilva.gerenciadordespesas.repository.DespesaRepository;
+import dev.fabriciosilva.gerenciadordespesas.repository.PessoaRepository;
+import dev.fabriciosilva.gerenciadordespesas.repository.SubcategoriaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +29,22 @@ public class DespesaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public Despesa novo(DespesaPostRequestForm despesaPostRequestForm){
-        Despesa despesa = despesaPostRequestForm.toDespesa();
+    @Autowired
+    private SubcategoriaRepository subcategoriaRepository;
 
-        Long categoriaId = Long.valueOf(despesaPostRequestForm.getCategoria());
-        if(categoriaId != 0){
-            Optional<Categoria> optionalCategoria = categoriaRepository.findById(categoriaId);
-            if(optionalCategoria.isPresent()){
-                Categoria categoria = optionalCategoria.get();
-                despesa.setCategoria(categoria);
-            }
-        }
+    @Autowired
+    private PessoaRepository credorRepository;
+
+    public Despesa novo(DespesaPostRequestForm form){
+        Despesa despesa = form.toDespesa();
+
+        Long categoriaId = Long.valueOf(form.getCategoria());
+        Long subcategoriaId = Long.valueOf(form.getSubcategoria());
+        Long credorId = Long.valueOf(form.getCredor());
+
+        definirCategoria(despesa, categoriaId);
+        definirSubcategoria(despesa, subcategoriaId);
+        definirCredor(despesa, credorId);
 
         despesaRepository.save(despesa);
         return despesa;
@@ -44,43 +55,93 @@ public class DespesaService {
     }
 
     public void excluir(Integer id){
+        Optional<Despesa> optional = despesaRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new RecursoInexistenteException("A despesa de id " + id + " não foi encontrada na base de dados");
+        }
         despesaRepository.deleteById(id);
     }
 
     public DespesaDto detalhar(Integer id) {
         Optional<Despesa> optional = despesaRepository.findById(id);
         if(optional.isEmpty()){
-            throw new RuntimeException("Not found");
+            throw new RecursoInexistenteException("A despesa de id " + id + " não foi encontrada na base de dados");
         }
         return new DespesaDto(optional.get());
     }
 
     public DespesaPutRequestForm buscarPorId(Integer id){
-        Despesa despesa = despesaRepository.findById(id).get();
-        DespesaPutRequestForm despesaPutRequestForm = despesa.toDespesaDto();
-        return despesaPutRequestForm;
+        Optional<Despesa> optional = despesaRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new RecursoInexistenteException("A despesa de id " + id + " não foi encontrada na base de dados");
+        }
+
+        Despesa despesa = optional.get();
+        DespesaPutRequestForm form = despesa.toDespesaDto();
+        return form;
     }
 
-    public void editar(DespesaPutRequestForm despesaPutRequestForm){
-        String despesaId = despesaPutRequestForm.getId();
+    public void editar(DespesaPutRequestForm form){
+        String despesaId = form.getId();
         Optional<Despesa> optional = despesaRepository.findById(Integer.valueOf(despesaId));
 
-        boolean despesaExiste = optional.isPresent();
+        if(optional.isEmpty()){
+            throw new RecursoInexistenteException("A despesa de id " + despesaId + " não foi encontrada na base de dados");
+        }
 
-        if(despesaExiste){
+        Despesa despesa = form.toDespesa();
 
-            Despesa despesa = despesaPutRequestForm.toDespesa();
+        Long categoriaId = Long.valueOf(form.getCategoria());
+        Long subcategoriaId = Long.valueOf(form.getSubcategoria());
+        Long credorId = Long.valueOf(form.getCredor());
 
-            Long categoriaId = Long.valueOf(despesaPutRequestForm.getCategoria());
-            if(categoriaId != 0){
-                Optional<Categoria> optionalCategoria = categoriaRepository.findById(categoriaId);
-                if(optionalCategoria.isPresent()){
-                    Categoria categoria = optionalCategoria.get();
-                    despesa.setCategoria(categoria);
-                }
+        definirCategoria(despesa, categoriaId);
+        definirSubcategoria(despesa, subcategoriaId);
+        definirCredor(despesa, credorId);
+
+        despesaRepository.save(despesa);
+    }
+
+    private void definirCategoria(Despesa despesa, Long categoriaId) {
+        if(categoriaId > 0) {
+            Optional<Categoria> optionalCategoria = categoriaRepository.findById(categoriaId);
+
+            if (optionalCategoria.isPresent()) {
+                Categoria categoria = optionalCategoria.get();
+                despesa.setCategoria(categoria);
             }
+            else {
+                throw new FormValidationException("A categoria " + categoriaId + " não foi encontrada na base de dados");
+            }
+        }
+    }
 
-            despesaRepository.save(despesa);
+    private void definirSubcategoria(Despesa despesa, Long subcategoriaId) {
+        if(subcategoriaId > 0) {
+            Optional<Subcategoria> optionalSubcategoria = subcategoriaRepository.findById(subcategoriaId);
+
+            if (optionalSubcategoria.isPresent()) {
+                Subcategoria subcategoria = optionalSubcategoria.get();
+                despesa.setSubcategoria(subcategoria);
+            }
+            else {
+                throw new FormValidationException("A subcategoria " + subcategoriaId + " não foi encontrada na base de dados");
+            }
+        }
+    }
+
+
+    private void definirCredor(Despesa despesa, Long credorId) {
+        if(credorId > 0) {
+            Optional<Pessoa> optionalCredor = credorRepository.findById(credorId);
+
+            if (optionalCredor.isPresent()) {
+                Pessoa credor = optionalCredor.get();
+                despesa.setCredor(credor);
+            }
+            else {
+                throw new FormValidationException("O credor de id " + credorId + " não foi encontrada na base de dados");
+            }
         }
     }
 }

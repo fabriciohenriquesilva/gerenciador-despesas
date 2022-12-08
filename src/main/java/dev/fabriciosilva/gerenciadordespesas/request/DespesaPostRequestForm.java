@@ -10,12 +10,19 @@ public class DespesaPostRequestForm {
 
     @NotBlank(message = "É obrigatório preencher o campo descrição")
     private String descricao;
-    @NotBlank(message = "É obrigatório preencher o campo valor gasto com um valor númerico")
+    @NotBlank(message = "É obrigatório preencher o campo valor gasto com um valor numérico")
     private String valorGasto;
     @NotBlank(message = "É obrigatório preencher o campo de data da despesa")
     private String dataDespesa;
 
+    @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
+    private String credor;
+
+    @NotBlank(message = "É obrigatório informar o campo de categoria da despesa")
     private String categoria;
+
+    @NotBlank(message = "É obrigatório informar o campo de subcategoria da despesa")
+    private String subcategoria;
 
     public String getDescricao() {
         return descricao;
@@ -39,6 +46,22 @@ public class DespesaPostRequestForm {
 
     public void setDataDespesa(String dataDespesa) {
         this.dataDespesa = dataDespesa;
+    }
+
+    public String getCredor() {
+        return credor;
+    }
+
+    public void setCredor(String credor) {
+        this.credor = credor;
+    }
+
+    public String getSubcategoria() {
+        return subcategoria;
+    }
+
+    public void setSubcategoria(String subcategoria) {
+        this.subcategoria = subcategoria;
     }
 
     public String getCategoria() {

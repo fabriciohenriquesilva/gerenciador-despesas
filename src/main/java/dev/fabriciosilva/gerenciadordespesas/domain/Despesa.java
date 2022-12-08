@@ -94,7 +94,9 @@ public class Despesa {
         despesaPutRequestForm.setDescricao(this.descricao);
         despesaPutRequestForm.setValorGasto(String.valueOf(this.valorGasto));
         despesaPutRequestForm.setDataDespesa(String.valueOf(this.dataDespesa));
-        despesaPutRequestForm.setCategoria(categoria != null ? categoria.getNome() : "0");
+        despesaPutRequestForm.setCategoria(this.categoria != null ? this.categoria.getNome() : "0");
+        despesaPutRequestForm.setCredor(String.valueOf(this.credor != null ? this.credor.getId() : 0));
+        despesaPutRequestForm.setSubcategoria(this.subcategoria != null ? this.subcategoria.getNome() : "0");
 
         return despesaPutRequestForm;
     }

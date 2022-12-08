@@ -42,7 +42,7 @@ public class PessoaRest {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaDto> atualizar(@PathVariable Long id, @RequestBody PessoaRequestForm form) {
+    public ResponseEntity<PessoaDto> atualizar(@PathVariable Long id, @RequestBody @Valid PessoaRequestForm form) {
         return ResponseEntity.ok(pessoaService.atualizar(id, form));
     }
 

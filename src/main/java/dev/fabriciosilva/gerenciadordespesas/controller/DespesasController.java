@@ -2,10 +2,14 @@ package dev.fabriciosilva.gerenciadordespesas.controller;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
+import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
+import dev.fabriciosilva.gerenciadordespesas.dto.PessoaDto;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPostRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.request.DespesaPutRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.CategoriaService;
 import dev.fabriciosilva.gerenciadordespesas.service.DespesaService;
+import dev.fabriciosilva.gerenciadordespesas.service.PessoaService;
+import dev.fabriciosilva.gerenciadordespesas.service.SubcategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +34,12 @@ public class DespesasController {
     @Autowired
     private CategoriaService categoriaService;
 
+    @Autowired
+    private SubcategoriaService subcategoriaService;
+
+    @Autowired
+    private PessoaService credorService;
+
     @GetMapping
     public String index(Pageable pageable, Model model){
         int page = pageable.getPageNumber();
@@ -48,6 +58,9 @@ public class DespesasController {
 
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
+
+        List<Subcategoria> subcategorias = subcategoriaService.listarTodos();
+        model.addAttribute("subcategorias", categorias);
 
         return "despesa/despesaForm";
     }
@@ -75,6 +88,12 @@ public class DespesasController {
 
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
+
+        List<Subcategoria> subcategorias = subcategoriaService.listarTodos();
+        model.addAttribute("subcategorias", subcategorias);
+
+        PessoaDto pessoaDto = credorService.buscarPorId(Long.valueOf(despesaPutRequestForm.getCredor()));
+        model.addAttribute("credor", pessoaDto);
 
         return "despesa/despesaDetails";
     }

@@ -31,7 +31,7 @@ public class DespesasRest {
     }
 
     @PostMapping
-    public ResponseEntity<DespesaDto> cadastrar(@RequestBody DespesaPostRequestForm despesaPostRequestForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DespesaDto> cadastrar(@RequestBody @Valid DespesaPostRequestForm despesaPostRequestForm, UriComponentsBuilder uriBuilder) {
         Despesa despesa = this.despesaService.novo(despesaPostRequestForm);
         URI uri = uriBuilder.path("/api/despesas/{id}").buildAndExpand(despesa.getId()).toUri();
         return ResponseEntity.created(uri).body(new DespesaDto(despesa));

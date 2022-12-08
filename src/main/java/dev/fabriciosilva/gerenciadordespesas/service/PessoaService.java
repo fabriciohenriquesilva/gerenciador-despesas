@@ -2,6 +2,7 @@ package dev.fabriciosilva.gerenciadordespesas.service;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Pessoa;
 import dev.fabriciosilva.gerenciadordespesas.dto.PessoaDto;
+import dev.fabriciosilva.gerenciadordespesas.exception.RecursoInexistenteException;
 import dev.fabriciosilva.gerenciadordespesas.repository.PessoaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.PessoaRequestForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,25 @@ public class PessoaService {
     }
 
     public PessoaDto buscarPorId(Long id) {
+        if(id == null || id == 0){
+            return new PessoaDto();
+        }
+
         Optional<Pessoa> optional = pessoaRepository.findById(id);
-        Pessoa pessoa = optional.orElseThrow();
+        if(optional.isEmpty()) {
+            throw new RecursoInexistenteException("Não encontramos a pessoa de id: " + id);
+        }
+        Pessoa pessoa = optional.get();
         return new PessoaDto(pessoa);
     }
 
     public PessoaDto atualizar(Long id, PessoaRequestForm form) {
         Optional<Pessoa> optional = pessoaRepository.findById(id);
-        Pessoa savedPessoa = optional.orElseThrow();
+        if(optional.isEmpty()) {
+            throw new RecursoInexistenteException("Não encontramos a pessoa de id: " + id);
+        }
+
+        Pessoa savedPessoa = optional.get();
         Pessoa pessoa = form.toPessoa();
         pessoa.setId(savedPessoa.getId());
         pessoa.setDataCriacao(savedPessoa.getDataCriacao());
@@ -48,7 +60,10 @@ public class PessoaService {
 
     public void excluir(Long id) {
         Optional<Pessoa> optional = pessoaRepository.findById(id);
-        Pessoa pessoa = optional.orElseThrow();
+        if(optional.isEmpty()) {
+            throw new RecursoInexistenteException("Não encontramos a pessoa de id: " + id);
+        }
+        Pessoa pessoa = optional.get();
         pessoaRepository.delete(pessoa);
     }
 }
