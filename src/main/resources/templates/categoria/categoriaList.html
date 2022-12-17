@@ -10,8 +10,7 @@
     <hr>
     <div class="row">
         <div class="col">
-            <a class="btn btn-success" href="/categoria/nova-categoria">Novo</a>
-            <a class="btn btn-primary" href="/">Home</a>
+            <a class="btn btn-success" href="/categoria/form">Novo</a>
         </div>
     </div>
 
@@ -30,7 +29,7 @@
                 <td th:text="${categoria.nome}"></td>
                 <td><a class="btn btn-primary" th:href="@{/categoria/detalhes/{id}(id=${categoria.id})}">Visualizar</a></td>
                 <td>
-                    <form th:object="${despesa}" th:action="@{/categoria/delete/{id}(id=${categoria.id})}" method="post">
+                    <form th:object="${despesa}" th:action="@{/categoria/remover/{id}(id=${categoria.id})}" method="post">
                         <input class="btn btn-danger" type="submit" value="Excluir"/>
                     </form>
                 </td>

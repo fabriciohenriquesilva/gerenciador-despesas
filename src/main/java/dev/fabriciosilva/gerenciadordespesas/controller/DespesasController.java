@@ -26,7 +26,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/despesa")
 public class DespesasController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class DespesasController {
     private PessoaService credorService;
 
     @GetMapping
-    public String index(Pageable pageable, Model model){
+    public String listarTodos(Pageable pageable, Model model){
         int page = pageable.getPageNumber();
         PageRequest paginacao = PageRequest.of(page, 10);
 
@@ -52,37 +52,37 @@ public class DespesasController {
         return "index";
     }
 
-    @GetMapping("/nova-despesa")
-    public String getDespesaForm(Model model,
+    @GetMapping("/form")
+    public String getFormulario(Model model,
                                  DespesaPostRequestForm despesaPostRequestForm){
 
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
 
         List<Subcategoria> subcategorias = subcategoriaService.listarTodos();
-        model.addAttribute("subcategorias", categorias);
+        model.addAttribute("subcategorias", subcategorias);
 
         return "despesa/despesaForm";
     }
 
-    @PostMapping("/salvar-despesa")
-    public String novo(@Valid DespesaPostRequestForm despesaPostRequestForm, BindingResult result){
+    @PostMapping("/cadastrar")
+    public String cadastrar(@Valid DespesaPostRequestForm despesaPostRequestForm, BindingResult result){
         if(result.hasErrors()){
             return "despesa/despesaForm";
         }
         despesaService.novo(despesaPostRequestForm);
 
-        return "redirect:/";
+        return "redirect:/despesa";
     }
 
-    @PostMapping("/delete/{id}")
-    public String excluir(@PathVariable Integer id){
+    @PostMapping("/remover/{id}")
+    public String remover(@PathVariable Integer id){
         despesaService.excluir(id);
-        return "redirect:/";
+        return "redirect:/despesa";
     }
 
-    @GetMapping("/visualizar/{id}")
-    public String visualizar(@PathVariable Integer id, Model model){
+    @GetMapping("/detalhes/{id}")
+    public String detalhar(@PathVariable Integer id, Model model){
         DespesaPutRequestForm despesaPutRequestForm = despesaService.buscarPorId(id);
         model.addAttribute("despesaPutRequestForm", despesaPutRequestForm);
 
@@ -98,14 +98,14 @@ public class DespesasController {
         return "despesa/despesaDetails";
     }
 
-    @PostMapping("/editar-despesa")
-    public String editar(@Valid DespesaPutRequestForm despesaPutRequestForm, BindingResult result){
+    @PostMapping("/editar")
+    public String atualizar(@Valid DespesaPutRequestForm despesaPutRequestForm, BindingResult result){
         if(result.hasErrors()){
             return "despesa/despesaDetails";
         }
         despesaService.editar(despesaPutRequestForm);
 
-        return "redirect:/";
+        return "redirect:/despesa";
     }
 
 }

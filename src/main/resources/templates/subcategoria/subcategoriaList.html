@@ -10,8 +10,7 @@
     <hr>
     <div class="row">
         <div class="col">
-            <a class="btn btn-success" href="/subcategoria/nova-subcategoria">Novo</a>
-            <a class="btn btn-primary" href="/">Home</a>
+            <a class="btn btn-success" href="/subcategoria/form">Novo</a>
         </div>
     </div>
 
@@ -30,7 +29,7 @@
                 <td th:text="${subcategoria.nome}"></td>
                 <td><a class="btn btn-primary" th:href="@{/subcategoria/detalhes/{id}(id=${subcategoria.id})}">Visualizar</a></td>
                 <td>
-                    <form th:object="${subcategoria}" th:action="@{/subcategoria/delete/{id}(id=${subcategoria.id})}" method="post">
+                    <form th:object="${subcategoria}" th:action="@{/subcategoria/remover/{id}(id=${subcategoria.id})}" method="post">
                         <input class="btn btn-danger" type="submit" value="Excluir"/>
                     </form>
                 </td>

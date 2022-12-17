@@ -24,19 +24,19 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public String listaCategorias(Model model){
+    public String listarTodos(Model model){
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
         return "categoria/categoriaList";
     }
 
-    @GetMapping("/nova-categoria")
-    public String getCategoriaForm(CategoriaPostRequestForm categoriaPostRequestForm){
+    @GetMapping("/form")
+    public String getFormulario(CategoriaPostRequestForm categoriaPostRequestForm){
         return "categoria/categoriaForm";
     }
 
-    @PostMapping("/salvar")
-    public String save(@Valid CategoriaPostRequestForm categoriaPostRequestForm,
+    @PostMapping("/cadastrar")
+    public String cadastrar(@Valid CategoriaPostRequestForm categoriaPostRequestForm,
                        BindingResult result){
         if(result.hasErrors()){
             return "categoria/categoriaForm";
@@ -46,14 +46,14 @@ public class CategoriaController {
     }
 
     @GetMapping("/detalhes/{id}")
-    public String visualize(@PathVariable Long id, Model pagina){
+    public String detalhar(@PathVariable Long id, Model pagina){
         CategoriaPutRequestForm categoriaPutRequestForm = categoriaService.buscarPorId(id);
         pagina.addAttribute("categoriaPutRequestForm", categoriaPutRequestForm);
         return "categoria/categoriaDetails";
     }
 
     @PostMapping("/editar")
-    public String edit(@Valid CategoriaPutRequestForm form, BindingResult result){
+    public String atualizar(@Valid CategoriaPutRequestForm form, BindingResult result){
         if(result.hasErrors()){
             return "categoria/categoriaDetails";
         }
@@ -61,8 +61,8 @@ public class CategoriaController {
         return "redirect:/categoria";
     }
 
-    @PostMapping("/delete/{id}")
-    public String excluir(@PathVariable Long id){
+    @PostMapping("/remover/{id}")
+    public String remover(@PathVariable Long id){
         categoriaService.excluir(id);
         return "redirect:/categoria";
     }

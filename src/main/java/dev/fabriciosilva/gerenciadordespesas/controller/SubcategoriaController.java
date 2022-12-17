@@ -29,14 +29,14 @@ public class SubcategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public String listaCategorias(Model model) {
+    public String listarTodos(Model model) {
         List<Subcategoria> subcategorias = subcategoriaService.listarTodos();
         model.addAttribute("subcategorias", subcategorias);
         return "subcategoria/subcategoriaList";
     }
 
-    @GetMapping("/nova-subcategoria")
-    public String getCategoriaForm(Model model,
+    @GetMapping("/form")
+    public String getFormulario(Model model,
                                    SubcategoriaPostRequestForm subcategoriaPostRequestForm) {
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
@@ -44,8 +44,8 @@ public class SubcategoriaController {
         return "subcategoria/subcategoriaForm";
     }
 
-    @PostMapping("/salvar")
-    public String save(@Valid SubcategoriaPostRequestForm subcategoriaPostRequestForm,
+    @PostMapping("/cadastrar")
+    public String cadastrar(@Valid SubcategoriaPostRequestForm subcategoriaPostRequestForm,
                        BindingResult result) {
         if (result.hasErrors()) {
             return "subcategoria/subcategoriaForm";
@@ -55,7 +55,7 @@ public class SubcategoriaController {
     }
 
     @GetMapping("/detalhes/{id}")
-    public String visualize(@PathVariable Long id, Model pagina) {
+    public String detalhar(@PathVariable Long id, Model pagina) {
         SubcategoriaPutRequestForm subcategoriaPutRequestForm = subcategoriaService.buscarPorId(id);
         pagina.addAttribute("subcategoriaPutRequestForm", subcategoriaPutRequestForm);
 
@@ -66,7 +66,7 @@ public class SubcategoriaController {
     }
 
     @PostMapping("/editar")
-    public String edit(@Valid SubcategoriaPutRequestForm form, BindingResult result) {
+    public String atualizar(@Valid SubcategoriaPutRequestForm form, BindingResult result) {
         if (result.hasErrors()) {
             return "subcategoria/subcategoriaDetails";
         }
@@ -74,8 +74,8 @@ public class SubcategoriaController {
         return "redirect:/subcategoria";
     }
 
-    @PostMapping("/delete/{id}")
-    public String excluir(@PathVariable Long id) {
+    @PostMapping("/remover/{id}")
+    public String remover(@PathVariable Long id) {
         subcategoriaService.excluir(id);
         return "redirect:/subcategoria";
     }
