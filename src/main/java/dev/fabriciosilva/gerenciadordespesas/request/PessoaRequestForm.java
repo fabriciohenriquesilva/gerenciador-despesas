@@ -1,47 +1,20 @@
 package dev.fabriciosilva.gerenciadordespesas.request;
 
-import dev.fabriciosilva.gerenciadordespesas.domain.Documento;
-import dev.fabriciosilva.gerenciadordespesas.domain.Pessoa;
-import dev.fabriciosilva.gerenciadordespesas.domain.TipoPessoa;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
 
 public class PessoaRequestForm {
 
-    @Valid
-    @NotEmpty
+    @NotBlank
     private String nome;
 
-    @Valid
-    @NotEmpty
+    @NotBlank
     private String tipoPessoa;
 
-    @Valid
-    @NotEmpty
+    @NotBlank
     private String tipoDocumento;
 
-    @Valid
-    @NotEmpty
+    @NotBlank
     private String codigoDocumento;
-
-    public Pessoa toPessoa() {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(this.nome);
-        pessoa.setDataCriacao(LocalDate.now());
-
-        pessoa.setTipoPessoa(TipoPessoa.valueOf(this.tipoPessoa));
-
-        Documento documento = new Documento();
-
-        documento.setTipoDocumento(Documento.TipoDocumento.valueOf(this.tipoDocumento));
-        documento.setCodigo(this.codigoDocumento);
-
-        pessoa.setDocumento(documento);
-
-        return pessoa;
-    }
 
     public String getNome() {
         return nome;

@@ -1,6 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
-import dev.fabriciosilva.gerenciadordespesas.request.CategoriaPutRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.dto.CategoriaDto;
+import dev.fabriciosilva.gerenciadordespesas.request.CategoriaForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +21,17 @@ public class Categoria {
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Despesa> despesas = new ArrayList<>();
 
+    public Categoria() { }
+
+    public Categoria(CategoriaForm form) {
+        this.nome = form.getNome();
+    }
+
+    public Categoria(CategoriaDto dto) {
+        this.id = Long.valueOf(dto.getId());
+        this.nome = dto.getNome();
+    }
+
     public Long getId() {
         return id;
     }
@@ -36,11 +48,4 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public CategoriaPutRequestForm toCategoriaDto(){
-        CategoriaPutRequestForm categoriaPutRequestForm = new CategoriaPutRequestForm();
-        categoriaPutRequestForm.setId(String.valueOf(this.id));
-        categoriaPutRequestForm.setNome(this.nome);
-
-        return categoriaPutRequestForm;
-    }
 }

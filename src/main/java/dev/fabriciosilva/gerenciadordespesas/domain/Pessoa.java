@@ -1,5 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.domain;
 
+import dev.fabriciosilva.gerenciadordespesas.request.PessoaRequestForm;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,13 +29,18 @@ public class Pessoa {
     @OneToMany(mappedBy = "credor", fetch = FetchType.LAZY)
     private List<Despesa> despesas = new ArrayList<>();
 
-    public Pessoa() {
-    }
+    public Pessoa() { }
 
-    public Pessoa(Long id, String nome, LocalDate dataCriacao) {
-        this.id = id;
-        this.nome = nome;
-        this.dataCriacao = dataCriacao;
+    public Pessoa(PessoaRequestForm form) {
+        this.nome = form.getNome();
+        this.dataCriacao = LocalDate.now();
+        this.tipoPessoa = TipoPessoa.valueOf(form.getTipoPessoa());
+
+        Documento documento = new Documento();
+        documento.setTipoDocumento(Documento.TipoDocumento.valueOf(form.getTipoDocumento()));
+        documento.setCodigo(form.getCodigoDocumento());
+
+        this.documento = documento;
     }
 
     public Long getId() {

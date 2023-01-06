@@ -1,14 +1,19 @@
-package dev.fabriciosilva.gerenciadordespesas.request;
+package dev.fabriciosilva.gerenciadordespesas.dto;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 
 import javax.validation.constraints.NotBlank;
 
-public class CategoriaPutRequestForm {
+public class CategoriaDto {
 
     private String id;
     @NotBlank(message = "A categoria precisa ter um nome")
     private String nome;
+
+    public CategoriaDto(Categoria categoria) {
+        this.id = categoria.getId().toString();
+        this.nome = categoria.getNome();
+    }
 
     public String getId() {
         return id;
@@ -26,11 +31,4 @@ public class CategoriaPutRequestForm {
         this.nome = nome;
     }
 
-    public Categoria toCategoria(){
-        Categoria categoria = new Categoria();
-        categoria.setId(Long.valueOf(this.id));
-        categoria.setNome(this.nome);
-
-        return categoria;
-    }
 }

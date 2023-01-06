@@ -1,16 +1,17 @@
-package dev.fabriciosilva.gerenciadordespesas.request;
-
-import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
+package dev.fabriciosilva.gerenciadordespesas.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class SubcategoriaPutRequestForm {
+public class SubcategoriaDto {
 
     private String id;
     @NotBlank(message = "A subcategoria precisa ter um nome")
     private String nome;
 
     private String categoria;
+
+    public SubcategoriaDto() { }
+
 
     public String getId() {
         return id;
@@ -36,11 +37,11 @@ public class SubcategoriaPutRequestForm {
         this.categoria = categoria;
     }
 
-    public Subcategoria toSubcategoria(){
-        Subcategoria subcategoria = new Subcategoria();
-        subcategoria.setId(Long.valueOf(id));
-        subcategoria.setNome(this.nome);
-
-        return subcategoria;
-    }
+//    public Subcategoria toSubcategoria(){
+//        Subcategoria subcategoria = new Subcategoria();
+//        subcategoria.setId(Long.valueOf(id));
+//        subcategoria.setNome(this.nome);
+//
+//        return subcategoria;
+//    }
 }

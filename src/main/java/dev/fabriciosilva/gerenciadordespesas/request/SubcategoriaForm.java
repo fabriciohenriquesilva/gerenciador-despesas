@@ -1,11 +1,8 @@
 package dev.fabriciosilva.gerenciadordespesas.request;
 
-import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
-import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
-
 import javax.validation.constraints.NotBlank;
 
-public class SubcategoriaPostRequestForm {
+public class SubcategoriaForm {
 
     @NotBlank(message = "A subcategoria precisa ter um nome")
     private String nome;
@@ -28,10 +25,4 @@ public class SubcategoriaPostRequestForm {
         this.categoria = categoria;
     }
 
-    public Subcategoria toSubcategoria(){
-        Subcategoria subcategoria = new Subcategoria();
-        subcategoria.setNome(this.nome);
-
-        return subcategoria;
-    }
 }

@@ -19,14 +19,12 @@ public class PessoaService {
     private PessoaRepository pessoaRepository;
 
     public Page<PessoaDto> listarTodos(Pageable pageable){
-        Page<Pessoa> pessoas = pessoaRepository.findAll(pageable);
-        Page<PessoaDto> pessoasDto = pessoas.map(PessoaDto::new);
+        Page<PessoaDto> pessoasDto = pessoaRepository.findAll(pageable).map(PessoaDto::new);
         return pessoasDto;
     }
 
     public PessoaDto novo(PessoaRequestForm form){
-        Pessoa pessoa = form.toPessoa();
-        pessoaRepository.save(pessoa);
+        Pessoa pessoa = pessoaRepository.save(new Pessoa(form));
         return new PessoaDto(pessoa);
     }
 
@@ -50,7 +48,7 @@ public class PessoaService {
         }
 
         Pessoa savedPessoa = optional.get();
-        Pessoa pessoa = form.toPessoa();
+        Pessoa pessoa = new Pessoa(form);
         pessoa.setId(savedPessoa.getId());
         pessoa.setDataCriacao(savedPessoa.getDataCriacao());
 

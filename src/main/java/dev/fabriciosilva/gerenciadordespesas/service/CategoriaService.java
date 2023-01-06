@@ -2,8 +2,8 @@ package dev.fabriciosilva.gerenciadordespesas.service;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.repository.CategoriaRepository;
-import dev.fabriciosilva.gerenciadordespesas.request.CategoriaPostRequestForm;
-import dev.fabriciosilva.gerenciadordespesas.request.CategoriaPutRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.CategoriaForm;
+import dev.fabriciosilva.gerenciadordespesas.dto.CategoriaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,25 +20,27 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
-    public Categoria save(CategoriaPostRequestForm categoriaPostRequestForm) {
-        Categoria categoria = categoriaPostRequestForm.toCategoria();
+    public Categoria save(CategoriaForm form) {
+        Categoria categoria = new Categoria(form);
         categoriaRepository.save(categoria);
         return categoria;
     }
 
-    public CategoriaPutRequestForm buscarPorId(Long id) {
+    public CategoriaDto buscarPorId(Long id) {
         Optional<Categoria> optional = categoriaRepository.findById(id);
         Categoria categoria = optional.get();
-        return categoria.toCategoriaDto();
+        return new CategoriaDto(categoria);
     }
 
-    public void edit(CategoriaPutRequestForm form){
-        String categoriaId = form.getId();
+    public void edit(CategoriaDto dto){
+        String categoriaId = dto.getId();
         Long id = Long.valueOf(categoriaId);
-        Optional<Categoria> categoriaBuscada = categoriaRepository.findById(id);
-        if(categoriaBuscada.isPresent()){
-            Categoria categoriaEditada = form.toCategoria();
-            categoriaRepository.save(categoriaEditada);
+
+        Optional<Categoria> optional = categoriaRepository.findById(id);
+        if(optional.isPresent()){
+            if(optional.get().getId() == id){
+                categoriaRepository.save(new Categoria(dto));
+            }
         }
     }
 

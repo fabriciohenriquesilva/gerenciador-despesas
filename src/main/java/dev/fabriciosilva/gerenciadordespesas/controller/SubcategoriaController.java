@@ -2,8 +2,8 @@ package dev.fabriciosilva.gerenciadordespesas.controller;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
-import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPostRequestForm;
-import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPutRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaForm;
+import dev.fabriciosilva.gerenciadordespesas.dto.SubcategoriaDto;
 import dev.fabriciosilva.gerenciadordespesas.service.CategoriaService;
 import dev.fabriciosilva.gerenciadordespesas.service.SubcategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class SubcategoriaController {
 
     @GetMapping("/form")
     public String getFormulario(Model model,
-                                   SubcategoriaPostRequestForm subcategoriaPostRequestForm) {
+                                   SubcategoriaForm subcategoriaForm) {
         List<Categoria> categorias = categoriaService.listarTodos();
         model.addAttribute("categorias", categorias);
 
@@ -45,19 +45,19 @@ public class SubcategoriaController {
     }
 
     @PostMapping("/cadastrar")
-    public String cadastrar(@Valid SubcategoriaPostRequestForm subcategoriaPostRequestForm,
+    public String cadastrar(@Valid SubcategoriaForm subcategoriaForm,
                        BindingResult result) {
         if (result.hasErrors()) {
             return "subcategoria/subcategoriaForm";
         }
-        subcategoriaService.save(subcategoriaPostRequestForm);
+        subcategoriaService.save(subcategoriaForm);
         return "redirect:/subcategoria";
     }
 
     @GetMapping("/detalhes/{id}")
     public String detalhar(@PathVariable Long id, Model pagina) {
-        SubcategoriaPutRequestForm subcategoriaPutRequestForm = subcategoriaService.buscarPorId(id);
-        pagina.addAttribute("subcategoriaPutRequestForm", subcategoriaPutRequestForm);
+        SubcategoriaDto subcategoriaDto = subcategoriaService.buscarPorId(id);
+        pagina.addAttribute("subcategoriaPutRequestForm", subcategoriaDto);
 
         List<Categoria> categorias = categoriaService.listarTodos();
         pagina.addAttribute("categorias", categorias);
@@ -66,7 +66,7 @@ public class SubcategoriaController {
     }
 
     @PostMapping("/editar")
-    public String atualizar(@Valid SubcategoriaPutRequestForm form, BindingResult result) {
+    public String atualizar(@Valid SubcategoriaDto form, BindingResult result) {
         if (result.hasErrors()) {
             return "subcategoria/subcategoriaDetails";
         }

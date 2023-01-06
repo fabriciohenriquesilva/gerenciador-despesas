@@ -9,7 +9,7 @@ Este projeto está em desenvolvimento e sofrerá mudanças ao longo do tempo.
 - [ ] Padronizar as rotas;
 - [ ] Implementar testes na aplicação;
 - [ ] Melhorar a lógica das classes de serviço;
-- [ ] Criar Exceptions customizadas;
+- [x] Criar Exceptions customizadas;
 - [ ] Melhorar as classes DTO;
 
 ## :scroll: Descrição do Projeto
@@ -38,7 +38,7 @@ Este sistema tem por objetivos atender aos seguintes requisitos:
 - [x] Cadastro de Categorias
 - [x] Cadastro de Subcategorias
 - [ ] API Rest dos recursos
-- [ ] Cadastro de fornecedores/credores
+- [x] Cadastro de fornecedores/credores
 - [ ] Listar despesas por categoria
 - [ ] Geração de relatórios em PDF
 

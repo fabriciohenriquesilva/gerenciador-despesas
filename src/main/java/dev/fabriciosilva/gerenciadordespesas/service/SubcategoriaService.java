@@ -4,8 +4,8 @@ import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
 import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
 import dev.fabriciosilva.gerenciadordespesas.repository.CategoriaRepository;
 import dev.fabriciosilva.gerenciadordespesas.repository.SubcategoriaRepository;
-import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPostRequestForm;
-import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaPutRequestForm;
+import dev.fabriciosilva.gerenciadordespesas.dto.SubcategoriaDto;
+import dev.fabriciosilva.gerenciadordespesas.request.SubcategoriaForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +25,10 @@ public class SubcategoriaService {
         return subcategoriaRepository.findAll();
     }
 
-    public Subcategoria save(SubcategoriaPostRequestForm subcategoriaPostRequestForm) {
-        Subcategoria subcategoria = subcategoriaPostRequestForm.toSubcategoria();
+    public Subcategoria save(SubcategoriaForm form) {
+        Subcategoria subcategoria = new Subcategoria(form);
 
-        Long categoriaId = Long.valueOf(subcategoriaPostRequestForm.getCategoria());
+        Long categoriaId = Long.valueOf(form.getCategoria());
         if(categoriaId != 0){
             Optional<Categoria> optionalCategoria = categoriaRepository.findById(categoriaId);
             if(optionalCategoria.isPresent()){
@@ -41,18 +41,18 @@ public class SubcategoriaService {
         return subcategoria;
     }
 
-    public SubcategoriaPutRequestForm buscarPorId(Long id) {
+    public SubcategoriaDto buscarPorId(Long id) {
         Optional<Subcategoria> optional = subcategoriaRepository.findById(id);
         Subcategoria subcategoria = optional.get();
         return subcategoria.toSubcategoriaDto();
     }
 
-    public void edit(SubcategoriaPutRequestForm form) {
+    public void edit(SubcategoriaDto form) {
         Long id = Long.valueOf(form.getId());
         Optional<Subcategoria> subcategoriaBuscada = subcategoriaRepository.findById(id);
 
         if (subcategoriaBuscada.isPresent()) {
-            Subcategoria subcategoriaEditada = form.toSubcategoria();
+            Subcategoria subcategoriaEditada = new Subcategoria(form);
 
             Long categoriaId = Long.valueOf(form.getCategoria());
             Optional<Categoria> categoria = categoriaRepository.findById(categoriaId);

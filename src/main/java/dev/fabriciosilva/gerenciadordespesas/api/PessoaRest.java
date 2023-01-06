@@ -14,8 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/pessoa")
+@RequestMapping("/api/pessoas")
 public class PessoaRest {
 
     @Autowired
@@ -30,7 +31,7 @@ public class PessoaRest {
     @PostMapping
     public ResponseEntity<PessoaDto> cadastrar(@RequestBody @Valid PessoaRequestForm form, UriComponentsBuilder uriBuilder) {
         PessoaDto pessoaDto = pessoaService.novo(form);
-        URI uri = uriBuilder.path("/api/pessoa/{id}").buildAndExpand(pessoaDto.getId()).toUri();
+        URI uri = uriBuilder.path("/api/pessoas/{id}").buildAndExpand(pessoaDto.getId()).toUri();
 
         return ResponseEntity.created(uri).body(pessoaDto);
     }
