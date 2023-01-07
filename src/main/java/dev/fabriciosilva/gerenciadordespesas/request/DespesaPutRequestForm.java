@@ -25,6 +25,16 @@ public class DespesaPutRequestForm {
     @NotBlank(message = "É obrigatório informar o campo de subcategoria da despesa")
     private String subcategoria;
 
+    public DespesaPutRequestForm(Despesa despesa) {
+        this.setId(despesa.getId().toString());
+        this.setDescricao(despesa.getDescricao());
+        this.setValorGasto(despesa.getValorGasto().toString());
+        this.setDataDespesa(despesa.getDataDespesa().toString());
+        this.setCategoria(despesa.getCategoria() != null ? despesa.getCategoria().getNome() : "0");
+        this.setCredor(despesa.getCredor() != null ? despesa.getCredor().getNome() : "0");
+        this.setSubcategoria(despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "0");
+    }
+
     public String getDescricao() {
         return descricao;
     }
@@ -81,15 +91,4 @@ public class DespesaPutRequestForm {
         this.subcategoria = subcategoria;
     }
 
-    public Despesa toDespesa() {
-        Despesa despesa = new Despesa();
-        despesa.setId(Integer.valueOf(this.id));
-        despesa.setDescricao(descricao);
-        despesa.setValorGasto(new BigDecimal(valorGasto.replace(",", ".")));
-
-        LocalDate data = LocalDate.parse(dataDespesa);
-        despesa.setDataDespesa(data);
-
-        return despesa;
-    }
 }

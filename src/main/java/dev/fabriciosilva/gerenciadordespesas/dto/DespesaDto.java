@@ -9,12 +9,16 @@ public class DespesaDto {
     private String valorGasto;
     private String dataDespesa;
     private String categoria;
+    private String subcategoria;
+    private String credor;
 
     public DespesaDto(Despesa despesa) {
         this.descricao = despesa.getDescricao();
         this.valorGasto = despesa.getValorGasto().toString();
         this.dataDespesa = despesa.getDataDespesa().toString();
         this.categoria = despesa.getCategoria().getNome();
+        this.credor = despesa.getCredor() != null ? despesa.getCredor().getNome() : "n/a";
+        this.subcategoria = despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "";
     }
 
     public static Page<DespesaDto> converterLista(Page<Despesa> despesas) {
@@ -51,5 +55,21 @@ public class DespesaDto {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getCredor() {
+        return credor;
+    }
+
+    public void setCredor(String credor) {
+        this.credor = credor;
+    }
+
+    public String getSubcategoria() {
+        return subcategoria;
+    }
+
+    public void setSubcategoria(String subcategoria) {
+        this.subcategoria = subcategoria;
     }
 }

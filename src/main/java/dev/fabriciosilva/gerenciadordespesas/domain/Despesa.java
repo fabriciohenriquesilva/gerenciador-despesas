@@ -17,19 +17,28 @@ public class Despesa {
     private BigDecimal valorGasto;
     private LocalDate dataDespesa;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id", referencedColumnName = "id")
     private Categoria categoria;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategoria_id", referencedColumnName = "id")
     private Subcategoria subcategoria;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "credor_id", referencedColumnName = "id")
     private Pessoa credor;
 
     public Despesa() {
+    }
+
+    public Despesa(DespesaPutRequestForm form) {
+        this.setId(Integer.valueOf(form.getId()));
+        this.setDescricao(form.getDescricao());
+        this.setValorGasto(new BigDecimal(form.getValorGasto().replace(",", ".")));
+
+        LocalDate data = LocalDate.parse(form.getDataDespesa());
+        this.setDataDespesa(data);
     }
 
     public Integer getId() {
@@ -88,16 +97,4 @@ public class Despesa {
         this.credor = credor;
     }
 
-    public DespesaPutRequestForm toDespesaDto() {
-        DespesaPutRequestForm despesaPutRequestForm = new DespesaPutRequestForm();
-        despesaPutRequestForm.setId(String.valueOf(this.id));
-        despesaPutRequestForm.setDescricao(this.descricao);
-        despesaPutRequestForm.setValorGasto(String.valueOf(this.valorGasto));
-        despesaPutRequestForm.setDataDespesa(String.valueOf(this.dataDespesa));
-        despesaPutRequestForm.setCategoria(this.categoria != null ? this.categoria.getNome() : "0");
-        despesaPutRequestForm.setCredor(String.valueOf(this.credor != null ? this.credor.getId() : 0));
-        despesaPutRequestForm.setSubcategoria(this.subcategoria != null ? this.subcategoria.getNome() : "0");
-
-        return despesaPutRequestForm;
-    }
 }

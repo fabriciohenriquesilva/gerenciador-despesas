@@ -55,4 +55,31 @@ public class DespesasRest {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(params = "categoria")
+    public ResponseEntity<Page<DespesaDto>> listarPorCategoria(
+            @PageableDefault() Pageable paginacao,
+            @RequestParam(name = "categoria") String categoria){
+
+        Page<Despesa> despesas = despesaService.listarPorCategoria(paginacao, categoria);
+        return ResponseEntity.ok(DespesaDto.converterLista(despesas));
+    }
+
+    @GetMapping(params = "descricao")
+    public ResponseEntity<Page<DespesaDto>> listarPorDescricao(
+            @PageableDefault Pageable paginacao,
+            @RequestParam String descricao) {
+
+        Page<Despesa> despesas = despesaService.listarPorDescricao(paginacao, descricao);
+        return ResponseEntity.ok(DespesaDto.converterLista(despesas));
+    }
+
+    @GetMapping(params = "credor")
+    public ResponseEntity<Page<DespesaDto>> listarPorCredor(
+            @PageableDefault Pageable paginacao,
+            @RequestParam String credor) {
+
+        Page<Despesa> despesas = despesaService.listarPorCredor(paginacao, credor);
+        return ResponseEntity.ok(DespesaDto.converterLista(despesas));
+    }
+
 }

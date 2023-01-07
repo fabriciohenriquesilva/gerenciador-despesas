@@ -77,8 +77,7 @@ public class DespesaService {
         }
 
         Despesa despesa = optional.get();
-        DespesaPutRequestForm form = despesa.toDespesaDto();
-        return form;
+        return new DespesaPutRequestForm(despesa);
     }
 
     public void editar(DespesaPutRequestForm form){
@@ -89,7 +88,7 @@ public class DespesaService {
             throw new RecursoInexistenteException("A despesa de id " + despesaId + " não foi encontrada na base de dados");
         }
 
-        Despesa despesa = form.toDespesa();
+        Despesa despesa = new Despesa(form);
 
         Long categoriaId = Long.valueOf(form.getCategoria());
         Long subcategoriaId = Long.valueOf(form.getSubcategoria());
@@ -130,7 +129,6 @@ public class DespesaService {
         }
     }
 
-
     private void definirCredor(Despesa despesa, Long credorId) {
         if(credorId > 0) {
             Optional<Pessoa> optionalCredor = credorRepository.findById(credorId);
@@ -143,5 +141,27 @@ public class DespesaService {
                 throw new FormValidationException("O credor de id " + credorId + " não foi encontrada na base de dados");
             }
         }
+    }
+
+    public Page<Despesa> listarPorCategoria(Pageable paginacao, String categoria) {
+        return despesaRepository.findByCategoria(paginacao, categoria);
+    }
+
+    public Page<Despesa> listarPorDescricao(Pageable paginacao, String descricao) {
+        return despesaRepository.findByDescricao(paginacao, descricao);
+    }
+
+    public Page<Despesa> listarPorCredor(Pageable paginacao, String credor) {
+        boolean matches = credor.matches("\\d+");
+        if(matches){
+            Long credorId = Long.valueOf(credor);
+            boolean exists = credorRepository.existsById(credorId);
+            if(exists) {
+                return despesaRepository.findByCredor(paginacao, credorId);
+            }
+            throw new RecursoInexistenteException("Credor não existe");
+        }
+        throw new IllegalArgumentException("URL incorreta");
+
     }
 }

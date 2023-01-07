@@ -12,7 +12,6 @@ public class SubcategoriaDto {
 
     public SubcategoriaDto() { }
 
-
     public String getId() {
         return id;
     }
@@ -37,11 +36,4 @@ public class SubcategoriaDto {
         this.categoria = categoria;
     }
 
-//    public Subcategoria toSubcategoria(){
-//        Subcategoria subcategoria = new Subcategoria();
-//        subcategoria.setId(Long.valueOf(id));
-//        subcategoria.setNome(this.nome);
-//
-//        return subcategoria;
-//    }
 }
