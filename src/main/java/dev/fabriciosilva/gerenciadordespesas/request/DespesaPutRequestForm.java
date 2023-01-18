@@ -3,8 +3,6 @@ package dev.fabriciosilva.gerenciadordespesas.request;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class DespesaPutRequestForm {
 
@@ -20,19 +18,25 @@ public class DespesaPutRequestForm {
     private String categoria;
 
     @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
-    private String credor;
+    private String credorNome;
+
+    @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
+    private String credorId;
 
     @NotBlank(message = "É obrigatório informar o campo de subcategoria da despesa")
     private String subcategoria;
 
+    public DespesaPutRequestForm() { }
+
     public DespesaPutRequestForm(Despesa despesa) {
-        this.setId(despesa.getId().toString());
-        this.setDescricao(despesa.getDescricao());
-        this.setValorGasto(despesa.getValorGasto().toString());
-        this.setDataDespesa(despesa.getDataDespesa().toString());
-        this.setCategoria(despesa.getCategoria() != null ? despesa.getCategoria().getNome() : "0");
-        this.setCredor(despesa.getCredor() != null ? despesa.getCredor().getNome() : "0");
-        this.setSubcategoria(despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "0");
+        this.id = despesa.getId().toString();
+        this.descricao = despesa.getDescricao();
+        this.valorGasto = despesa.getValorGasto().toString();
+        this.dataDespesa = despesa.getDataDespesa().toString();
+        this.categoria = despesa.getCategoria() != null ? despesa.getCategoria().getNome() : "0";
+        this.subcategoria = despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "0";
+        this.credorNome = despesa.getCredor() != null ? despesa.getCredor().getNome() : "0";
+        this.credorId = despesa.getCredor() != null ? despesa.getCredor().getId().toString() : "0";
     }
 
     public String getDescricao() {
@@ -75,12 +79,12 @@ public class DespesaPutRequestForm {
         this.categoria = categoria;
     }
 
-    public String getCredor() {
-        return credor;
+    public String getCredorNome() {
+        return credorNome;
     }
 
-    public void setCredor(String credor) {
-        this.credor = credor;
+    public void setCredorNome(String credorNome) {
+        this.credorNome = credorNome;
     }
 
     public String getSubcategoria() {
@@ -91,4 +95,11 @@ public class DespesaPutRequestForm {
         this.subcategoria = subcategoria;
     }
 
+    public String getCredorId() {
+        return credorId;
+    }
+
+    public void setCredorId(String credorId) {
+        this.credorId = credorId;
+    }
 }

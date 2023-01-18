@@ -1,18 +1,29 @@
 package dev.fabriciosilva.gerenciadordespesas.api;
 
 import dev.fabriciosilva.gerenciadordespesas.dto.PessoaDto;
+import dev.fabriciosilva.gerenciadordespesas.repository.PessoaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.PessoaRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.PessoaService;
+import dev.fabriciosilva.gerenciadordespesas.service.ReportService;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.net.URI;
+import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -22,8 +33,11 @@ public class PessoaRest {
     @Autowired
     private PessoaService pessoaService;
 
+    @Autowired
+    private ReportService reportService;
+
     @GetMapping
-    public ResponseEntity<Page<PessoaDto>> listarTodos(@PageableDefault() Pageable paginacao){
+    public ResponseEntity<Page<PessoaDto>> listarTodos(@PageableDefault() Pageable paginacao) {
         Page<PessoaDto> pessoasDto = pessoaService.listarTodos(paginacao);
         return ResponseEntity.ok(pessoasDto);
     }
@@ -51,6 +65,21 @@ public class PessoaRest {
     public ResponseEntity remover(@PathVariable Long id) {
         pessoaService.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/pdf")
+    public ResponseEntity<byte[]> relatorio() throws JRException, SQLException {
+
+        String query = "SELECT p.id, p.nome, p.tipo_pessoa, p.tipo_documento, p.codigo FROM pessoa p";
+
+        String nomeArquivo = "src/main/resources/reports/pessoa/pessoas.jrxml";
+
+        byte[] relatorio = this.reportService.gerarRelatorioEmPdf(query, nomeArquivo);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=pessoas.pdf");
+
+        return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.APPLICATION_PDF).body(relatorio);
     }
 
 }

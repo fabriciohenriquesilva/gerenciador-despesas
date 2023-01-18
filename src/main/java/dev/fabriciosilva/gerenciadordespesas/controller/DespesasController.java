@@ -92,7 +92,7 @@ public class DespesasController {
         List<Subcategoria> subcategorias = subcategoriaService.listarTodos();
         model.addAttribute("subcategorias", subcategorias);
 
-        PessoaDto pessoaDto = credorService.buscarPorId(Long.valueOf(despesaPutRequestForm.getCredor()));
+        PessoaDto pessoaDto = credorService.buscarPorId(Long.valueOf(despesaPutRequestForm.getCredorId()));
         model.addAttribute("credor", pessoaDto);
 
         return "despesa/despesaDetails";
