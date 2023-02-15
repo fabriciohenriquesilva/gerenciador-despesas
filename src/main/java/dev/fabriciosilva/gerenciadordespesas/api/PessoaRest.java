@@ -1,16 +1,12 @@
 package dev.fabriciosilva.gerenciadordespesas.api;
 
 import dev.fabriciosilva.gerenciadordespesas.dto.PessoaDto;
-import dev.fabriciosilva.gerenciadordespesas.repository.PessoaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.PessoaRequestForm;
 import dev.fabriciosilva.gerenciadordespesas.service.PessoaService;
 import dev.fabriciosilva.gerenciadordespesas.service.ReportService;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
@@ -19,13 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.net.URI;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/pessoas")
 public class PessoaRest {

@@ -1,5 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.dto;
 
+import dev.fabriciosilva.gerenciadordespesas.domain.Subcategoria;
+
 import javax.validation.constraints.NotBlank;
 
 public class SubcategoriaDto {
@@ -11,6 +13,12 @@ public class SubcategoriaDto {
     private String categoria;
 
     public SubcategoriaDto() { }
+
+    public SubcategoriaDto(Subcategoria subcategoria) {
+        this.id = subcategoria.getId().toString();
+        this.nome = subcategoria.getNome();
+        this.categoria = subcategoria.getCategoria().getNome();
+    }
 
     public String getId() {
         return id;

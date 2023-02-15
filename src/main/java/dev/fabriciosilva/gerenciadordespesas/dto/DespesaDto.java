@@ -3,11 +3,13 @@ package dev.fabriciosilva.gerenciadordespesas.dto;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
+
 public class DespesaDto {
 
     private String descricao;
     private String valorGasto;
-    private String dataDespesa;
+    private LocalDate dataDespesa;
     private String categoria;
     private String subcategoria;
     private String credor;
@@ -15,7 +17,7 @@ public class DespesaDto {
     public DespesaDto(Despesa despesa) {
         this.descricao = despesa.getDescricao();
         this.valorGasto = despesa.getValorGasto().toString();
-        this.dataDespesa = despesa.getDataDespesa().toString();
+        this.dataDespesa = despesa.getDataDespesa();
         this.categoria = despesa.getCategoria().getNome();
         this.credor = despesa.getCredor() != null ? despesa.getCredor().getNome() : "n/a";
         this.subcategoria = despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "";
@@ -41,14 +43,6 @@ public class DespesaDto {
         this.valorGasto = valorGasto;
     }
 
-    public String getDataDespesa() {
-        return dataDespesa;
-    }
-
-    public void setDataDespesa(String dataDespesa) {
-        this.dataDespesa = dataDespesa;
-    }
-
     public String getCategoria() {
         return categoria;
     }
@@ -71,5 +65,13 @@ public class DespesaDto {
 
     public void setSubcategoria(String subcategoria) {
         this.subcategoria = subcategoria;
+    }
+
+    public LocalDate getDataDespesa() {
+        return dataDespesa;
+    }
+
+    public void setDataDespesa(LocalDate dataDespesa) {
+        this.dataDespesa = dataDespesa;
     }
 }
