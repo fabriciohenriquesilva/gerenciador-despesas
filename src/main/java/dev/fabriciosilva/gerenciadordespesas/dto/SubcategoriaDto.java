@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 public class SubcategoriaDto {
 
-    private String id;
+    private Long id;
     @NotBlank(message = "A subcategoria precisa ter um nome")
     private String nome;
 
@@ -15,16 +15,16 @@ public class SubcategoriaDto {
     public SubcategoriaDto() { }
 
     public SubcategoriaDto(Subcategoria subcategoria) {
-        this.id = subcategoria.getId().toString();
+        this.id = subcategoria.getId();
         this.nome = subcategoria.getNome();
         this.categoria = subcategoria.getCategoria().getNome();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

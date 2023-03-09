@@ -17,11 +17,11 @@ public class DespesaPutRequestForm {
     @NotBlank(message = "É obrigatório informar o campo de categoria da despesa")
     private String categoria;
 
-    @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
-    private String credorNome;
+//    @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
+//    private String credorNome;
 
-    @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
-    private String credorId;
+//    @NotBlank(message = "É obrigatório informar o campo de credor da despesa")
+    private Long credor;
 
     @NotBlank(message = "É obrigatório informar o campo de subcategoria da despesa")
     private String subcategoria;
@@ -35,8 +35,9 @@ public class DespesaPutRequestForm {
         this.dataDespesa = despesa.getDataDespesa().toString();
         this.categoria = despesa.getCategoria() != null ? despesa.getCategoria().getNome() : "0";
         this.subcategoria = despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "0";
-        this.credorNome = despesa.getCredor() != null ? despesa.getCredor().getNome() : "0";
-        this.credorId = despesa.getCredor() != null ? despesa.getCredor().getId().toString() : "0";
+//        this.credorNome = despesa.getCredor() != null ? despesa.getCredor().getNome() : "0";
+
+        this.credor = despesa.getCredor().getId();
     }
 
     public String getDescricao() {
@@ -79,13 +80,13 @@ public class DespesaPutRequestForm {
         this.categoria = categoria;
     }
 
-    public String getCredorNome() {
-        return credorNome;
-    }
-
-    public void setCredorNome(String credorNome) {
-        this.credorNome = credorNome;
-    }
+//    public String getCredorNome() {
+//        return credorNome;
+//    }
+//
+//    public void setCredorNome(String credorNome) {
+//        this.credorNome = credorNome;
+//    }
 
     public String getSubcategoria() {
         return subcategoria;
@@ -95,11 +96,11 @@ public class DespesaPutRequestForm {
         this.subcategoria = subcategoria;
     }
 
-    public String getCredorId() {
-        return credorId;
+    public Long getCredor() {
+        return credor;
     }
 
-    public void setCredorId(String credorId) {
-        this.credorId = credorId;
+    public void setCredor(Long credor) {
+        this.credor = credor;
     }
 }

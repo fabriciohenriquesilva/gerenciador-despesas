@@ -3,24 +3,36 @@ package dev.fabriciosilva.gerenciadordespesas.dto;
 import dev.fabriciosilva.gerenciadordespesas.domain.Despesa;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class DespesaDto {
 
+    private Integer id;
     private String descricao;
-    private String valorGasto;
+    private BigDecimal valorGasto;
     private LocalDate dataDespesa;
-    private String categoria;
-    private String subcategoria;
-    private String credor;
+    private CategoriaDto categoria;
+    private SubcategoriaDto subcategoria;
+    private PessoaDto credor;
 
     public DespesaDto(Despesa despesa) {
+        this.id = despesa.getId();
         this.descricao = despesa.getDescricao();
-        this.valorGasto = despesa.getValorGasto().toString();
+        this.valorGasto = despesa.getValorGasto();
         this.dataDespesa = despesa.getDataDespesa();
-        this.categoria = despesa.getCategoria().getNome();
-        this.credor = despesa.getCredor() != null ? despesa.getCredor().getNome() : "n/a";
-        this.subcategoria = despesa.getSubcategoria() != null ? despesa.getSubcategoria().getNome() : "";
+
+        if(despesa.getCategoria() != null) {
+            this.categoria = new CategoriaDto(despesa.getCategoria());
+        }
+
+        if(despesa.getCredor() != null) {
+            this.credor = new PessoaDto(despesa.getCredor());
+        }
+
+        if(despesa.getSubcategoria() != null) {
+            this.subcategoria = new SubcategoriaDto(despesa.getSubcategoria());
+        }
     }
 
     public static Page<DespesaDto> converterLista(Page<Despesa> despesas) {
@@ -35,35 +47,35 @@ public class DespesaDto {
         this.descricao = descricao;
     }
 
-    public String getValorGasto() {
+    public BigDecimal getValorGasto() {
         return valorGasto;
     }
 
-    public void setValorGasto(String valorGasto) {
+    public void setValorGasto(BigDecimal valorGasto) {
         this.valorGasto = valorGasto;
     }
 
-    public String getCategoria() {
+    public CategoriaDto getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(CategoriaDto categoria) {
         this.categoria = categoria;
     }
 
-    public String getCredor() {
+    public PessoaDto getCredor() {
         return credor;
     }
 
-    public void setCredor(String credor) {
+    public void setCredor(PessoaDto credor) {
         this.credor = credor;
     }
 
-    public String getSubcategoria() {
+    public SubcategoriaDto getSubcategoria() {
         return subcategoria;
     }
 
-    public void setSubcategoria(String subcategoria) {
+    public void setSubcategoria(SubcategoriaDto subcategoria) {
         this.subcategoria = subcategoria;
     }
 
@@ -73,5 +85,13 @@ public class DespesaDto {
 
     public void setDataDespesa(LocalDate dataDespesa) {
         this.dataDespesa = dataDespesa;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

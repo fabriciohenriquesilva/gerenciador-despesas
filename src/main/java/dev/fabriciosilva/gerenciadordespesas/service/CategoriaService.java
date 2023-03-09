@@ -33,7 +33,7 @@ public class CategoriaService {
     }
 
     public void edit(CategoriaDto dto){
-        String categoriaId = dto.getId();
+        Long categoriaId = dto.getId();
         Long id = Long.valueOf(categoriaId);
 
         Optional<Categoria> optional = categoriaRepository.findById(id);

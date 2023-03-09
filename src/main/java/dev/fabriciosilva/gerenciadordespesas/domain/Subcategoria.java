@@ -60,7 +60,7 @@ public class Subcategoria {
 
     public SubcategoriaDto toSubcategoriaDto() {
         SubcategoriaDto subcategoriaDto = new SubcategoriaDto();
-        subcategoriaDto.setId(String.valueOf(this.id));
+        subcategoriaDto.setId(this.id);
         subcategoriaDto.setNome(this.nome);
         subcategoriaDto.setCategoria(this.categoria != null ? categoria.getNome() : "0");
 

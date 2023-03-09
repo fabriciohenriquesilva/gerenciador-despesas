@@ -6,20 +6,20 @@ import javax.validation.constraints.NotBlank;
 
 public class CategoriaDto {
 
-    private String id;
+    private Long id;
     @NotBlank(message = "A categoria precisa ter um nome")
     private String nome;
 
     public CategoriaDto(Categoria categoria) {
-        this.id = categoria.getId().toString();
+        this.id = categoria.getId();
         this.nome = categoria.getNome();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

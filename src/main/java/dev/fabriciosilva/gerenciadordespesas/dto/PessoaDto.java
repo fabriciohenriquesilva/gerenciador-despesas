@@ -2,33 +2,35 @@ package dev.fabriciosilva.gerenciadordespesas.dto;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Pessoa;
 
+import java.time.LocalDate;
+
 public class PessoaDto {
 
-    private String id;
+    private Long id;
     private String nome;
     private String tipoPessoa;
     private String tipoDocumento;
     private String codigoDocumento;
 
-    private String dataCriacao;
+    private LocalDate dataCriacao;
 
     public PessoaDto() {
     }
 
     public PessoaDto(Pessoa pessoa) {
-        this.id = pessoa.getId().toString();
+        this.id = pessoa.getId();
         this.nome = pessoa.getNome();
         this.tipoPessoa = pessoa.getTipoPessoa().name();
         this.tipoDocumento = pessoa.getDocumento().getTipoDocumento().name();
         this.codigoDocumento = pessoa.getDocumento().getCodigo();
-        this.dataCriacao = pessoa.getDataCriacao().toString();
+        this.dataCriacao = pessoa.getDataCriacao();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,11 +66,11 @@ public class PessoaDto {
         this.codigoDocumento = codigoDocumento;
     }
 
-    public String getDataCriacao() {
+    public LocalDate getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(String dataCriacao) {
+    public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 }

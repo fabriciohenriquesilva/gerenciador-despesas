@@ -92,7 +92,7 @@ public class DespesaService {
 
         Long categoriaId = Long.valueOf(form.getCategoria());
         Long subcategoriaId = Long.valueOf(form.getSubcategoria());
-        Long credorId = Long.valueOf(form.getCredorNome());
+        Long credorId = form.getCredor();
 
         definirCategoria(despesa, categoriaId);
         definirSubcategoria(despesa, subcategoriaId);
