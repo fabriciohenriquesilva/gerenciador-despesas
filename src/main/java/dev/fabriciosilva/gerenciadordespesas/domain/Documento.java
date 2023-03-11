@@ -10,15 +10,19 @@ public class Documento {
 
     public enum TipoDocumento {
         CPF {
+            @Override
             public String getMascara(){
                 return "###.###.###-##";
             }
         },
         CNPJ {
+            @Override
             public String getMascara(){
                 return "##.###.###/####-##";
             }
-        }
+        };
+
+        public abstract String getMascara();
     }
 
     @Enumerated(EnumType.STRING)

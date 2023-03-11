@@ -11,7 +11,7 @@ public class PessoaDto {
     private String tipoPessoa;
     private String tipoDocumento;
     private String codigoDocumento;
-
+    private String mascaraDocumento;
     private LocalDate dataCriacao;
 
     public PessoaDto() {
@@ -22,6 +22,7 @@ public class PessoaDto {
         this.nome = pessoa.getNome();
         this.tipoPessoa = pessoa.getTipoPessoa().name();
         this.tipoDocumento = pessoa.getDocumento().getTipoDocumento().name();
+        this.mascaraDocumento = pessoa.getDocumento().getTipoDocumento().getMascara();
         this.codigoDocumento = pessoa.getDocumento().getCodigo();
         this.dataCriacao = pessoa.getDataCriacao();
     }
@@ -72,5 +73,13 @@ public class PessoaDto {
 
     public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getMascaraDocumento() {
+        return mascaraDocumento;
+    }
+
+    public void setMascaraDocumento(String mascaraDocumento) {
+        this.mascaraDocumento = mascaraDocumento;
     }
 }
