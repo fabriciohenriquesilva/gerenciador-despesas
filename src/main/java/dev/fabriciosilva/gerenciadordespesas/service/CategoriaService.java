@@ -1,6 +1,7 @@
 package dev.fabriciosilva.gerenciadordespesas.service;
 
 import dev.fabriciosilva.gerenciadordespesas.domain.Categoria;
+import dev.fabriciosilva.gerenciadordespesas.exception.RecursoInexistenteException;
 import dev.fabriciosilva.gerenciadordespesas.repository.CategoriaRepository;
 import dev.fabriciosilva.gerenciadordespesas.request.CategoriaForm;
 import dev.fabriciosilva.gerenciadordespesas.dto.CategoriaDto;
@@ -33,8 +34,7 @@ public class CategoriaService {
     }
 
     public void edit(CategoriaDto dto){
-        Long categoriaId = dto.getId();
-        Long id = Long.valueOf(categoriaId);
+        Long id = dto.getId();
 
         Optional<Categoria> optional = categoriaRepository.findById(id);
         if(optional.isPresent()){
@@ -45,6 +45,10 @@ public class CategoriaService {
     }
 
     public void excluir(Long id){
+        boolean exists = categoriaRepository.existsById(id);
+        if(!exists) {
+            throw new RecursoInexistenteException("Elemento de id " + id + " não foi encontrado para exclusão");
+        }
         categoriaRepository.deleteById(id);
     }
 }

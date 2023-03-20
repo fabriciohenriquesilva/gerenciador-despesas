@@ -10,6 +10,9 @@ public class CategoriaDto {
     @NotBlank(message = "A categoria precisa ter um nome")
     private String nome;
 
+    public CategoriaDto() {
+    }
+
     public CategoriaDto(Categoria categoria) {
         this.id = categoria.getId();
         this.nome = categoria.getNome();
