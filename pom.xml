@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>dev.fabriciosilva</groupId>
-	<artifactId>gerenciador-despesas</artifactId>
+	<artifactId>controle-financeiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gerenciador-despesas</name>
 	<description>Projeto de Gerenciamento de Despesas Web</description>
