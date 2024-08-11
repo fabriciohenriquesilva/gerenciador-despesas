@@ -1,48 +1,52 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CategoriaService {
 
-    @Autowired
-    private CategoriaRepository categoriaRepository;
+    private final CategoriaRepository repository;
 
-    public List<Categoria> listarTodos() {
-        return categoriaRepository.findAll();
+    public CategoriaService(CategoriaRepository repository) {
+        this.repository = repository;
     }
 
-    public Categoria save(CategoriaDto form) {
-        return categoriaRepository.save(form.toCategoria());
+    public Page<CategoriaDto> find(Pageable pageable) {
+        return repository.findAll(pageable).map(CategoriaDto::new);
     }
 
-    public CategoriaDto buscarPorId(Long id) {
-        Optional<Categoria> optional = categoriaRepository.findById(id);
-        Categoria categoria = optional.get();
+    public CategoriaDto save(CategoriaDto form) {
+        Categoria categoria = repository.save(form.toCategoria());
         return new CategoriaDto(categoria);
     }
 
-    public void edit(CategoriaDto dto){
-        Long id = dto.getId();
+    public CategoriaDto findById(Integer id) {
+        Optional<Categoria> optional = repository.findById(id);
 
-        Optional<Categoria> optional = categoriaRepository.findById(id);
-        if(optional.isPresent()){
-            if(optional.get().getId() == id){
-                categoriaRepository.save(dto.toCategoria());
-            }
+        if (optional.isPresent()) {
+            return new CategoriaDto(optional.get());
+        }
+        throw new RecursoInexistenteException("Não foi encontrado uma categoria com o id " + id);
+    }
+
+    public void update(CategoriaDto dto) {
+        Optional<Categoria> optional = repository.findById(dto.getId());
+
+        if (optional.isPresent()) {
+            repository.save(dto.toCategoria());
         }
     }
 
-    public void excluir(Long id){
-        boolean exists = categoriaRepository.existsById(id);
-        if(!exists) {
-            throw new RecursoInexistenteException("Elemento de id " + id + " não foi encontrado para exclusão");
+    public void delete(Integer id) {
+        boolean existe = repository.existsById(id);
+        if (!existe) {
+            throw new RecursoInexistenteException("Não foi encontrado uma categoria com o id " + id);
         }
-        categoriaRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

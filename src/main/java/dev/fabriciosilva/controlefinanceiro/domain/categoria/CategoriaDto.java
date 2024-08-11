@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class CategoriaDto {
 
-    private Long id;
+    private Integer id;
 
     @NotBlank(message = "A categoria precisa ter um nome")
     private String nome;
@@ -26,11 +26,11 @@ public class CategoriaDto {
         return categoria;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

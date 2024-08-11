@@ -16,44 +16,39 @@ import java.net.URI;
 public class CategoriaRest {
 
     @Autowired
-    private CategoriaRepository repository;
-
-    @Autowired
     private CategoriaService service;
 
     @GetMapping
     public ResponseEntity<Page<CategoriaDto>> find(@PageableDefault() Pageable paginacao) {
-        Page<CategoriaDto> page = repository.findAll(paginacao)
-                .map(CategoriaDto::new);
-
+        Page<CategoriaDto> page = service.find(paginacao);
         return ResponseEntity.ok(page);
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<CategoriaDto> save(@RequestBody CategoriaDto form, UriComponentsBuilder uriBuilder) {
-        Categoria categoria = repository.save(form.toCategoria());
-        URI uri = uriBuilder.path("/api/categorias/{id}").buildAndExpand(categoria.getId()).toUri();
-        return ResponseEntity.created(uri).body(new CategoriaDto(categoria));
+        CategoriaDto categoria = service.save(form);
+        URI uri = uriBuilder.path("/categorias/{id}").buildAndExpand(categoria.getId()).toUri();
+        return ResponseEntity.created(uri).body(categoria);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDto> findById(@PathVariable Long id) {
-        Categoria categoria = repository.findById(id).get();
-        return ResponseEntity.ok(new CategoriaDto(categoria));
+    public ResponseEntity<CategoriaDto> findById(@PathVariable Integer id) {
+        CategoriaDto categoria = service.findById(id);
+        return ResponseEntity.ok(categoria);
     }
 
     @PutMapping
     @Transactional
     public ResponseEntity<CategoriaDto> update(@RequestBody CategoriaDto form) {
-        service.edit(form);
+        service.update(form);
         return ResponseEntity.ok(form);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<CategoriaDto> delete(@PathVariable Long id) {
-        service.excluir(id);
+    public ResponseEntity<CategoriaDto> delete(@PathVariable Integer id) {
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
