@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class RecursoInexistenteException extends RuntimeException {
 
-    public RecursoInexistenteException(String message) {
-        super(message);
+    public RecursoInexistenteException(Number id, String name) {
+        super("Não foi encontrado um(a) " + name + " com id [" + id + "]");
     }
 }

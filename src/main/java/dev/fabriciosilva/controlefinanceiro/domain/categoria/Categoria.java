@@ -21,6 +21,10 @@ public class Categoria {
     @OneToMany(mappedBy = "pai", fetch = FetchType.LAZY)
     private Set<Categoria> subcategorias;
 
+    private LocalDate processamento;
+
+    private LocalDate atualizacao;
+
     // usuario
 
     public Integer getId() {
@@ -38,10 +42,6 @@ public class Categoria {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    private LocalDate processamento;
-
-    private LocalDate atualizacao;
 
     public Categoria getPai() {
         return pai;

@@ -4,49 +4,79 @@ import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteEx
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
+@Transactional()
 public class CategoriaService {
 
     private final CategoriaRepository repository;
+    private final CategoriaDTOMapper categoriaDTOMapper;
 
-    public CategoriaService(CategoriaRepository repository) {
+    public CategoriaService(CategoriaRepository repository, CategoriaDTOMapper categoriaDTOMapper) {
         this.repository = repository;
+        this.categoriaDTOMapper = categoriaDTOMapper;
     }
 
-    public Page<CategoriaDto> find(Pageable pageable) {
-        return repository.findAll(pageable).map(CategoriaDto::new);
+    public Page<CategoriaDTO> find(Pageable pageable) {
+        return repository.findAll(pageable).map(categoriaDTOMapper);
     }
 
-    public CategoriaDto save(CategoriaDto form) {
-        Categoria categoria = repository.save(form.toCategoria());
-        return new CategoriaDto(categoria);
+    public CategoriaDTO save(CategoriaDTO form) {
+        Categoria categoria = toCategoria(form);
+
+        categoria.setProcessamento(LocalDate.now());
+        categoria.setPai(toCategoria(form.getPai()));
+        categoria = repository.save(categoria);
+
+        return categoriaDTOMapper.apply(categoria);
     }
 
-    public CategoriaDto findById(Integer id) {
+    public CategoriaDTO findById(Integer id) {
         Optional<Categoria> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            return new CategoriaDto(optional.get());
+            return categoriaDTOMapper.apply(optional.get());
         }
-        throw new RecursoInexistenteException("Não foi encontrado uma categoria com o id " + id);
+        throw new RecursoInexistenteException(id, "categoria");
     }
 
-    public void update(CategoriaDto dto) {
-        Optional<Categoria> optional = repository.findById(dto.getId());
+    public CategoriaDTO update(CategoriaDTO dto) {
+        boolean existe = repository.existsById(dto.getId());
 
-        if (optional.isPresent()) {
-            repository.save(dto.toCategoria());
+        if (existe) {
+            Categoria categoria = toCategoria(dto);
+            categoria.setAtualizacao(LocalDate.now());
+            return categoriaDTOMapper.apply(repository.save(categoria));
         }
+
+        throw new RecursoInexistenteException(dto.getId(), "categoria");
     }
 
     public void delete(Integer id) {
         boolean existe = repository.existsById(id);
         if (!existe) {
-            throw new RecursoInexistenteException("Não foi encontrado uma categoria com o id " + id);
+            throw new RecursoInexistenteException(id, "categoria");
         }
         repository.deleteById(id);
+    }
+
+    private Categoria toCategoria(CategoriaDTO dto) {
+        if (dto != null) {
+            Categoria categoria = new Categoria();
+            categoria.setId(dto.getId());
+            categoria.setNome(dto.getNome());
+
+            if (dto.getPai() != null) {
+                Optional<Categoria> optional = repository.findById(dto.getPai().getId());
+                optional.ifPresent(categoria::setPai);
+            }
+
+            return categoria;
+        }
+        return null;
     }
 }
