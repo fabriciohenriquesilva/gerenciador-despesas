@@ -14,32 +14,31 @@ import java.util.Optional;
 public class CategoriaService {
 
     private final CategoriaRepository repository;
-    private final CategoriaDTOMapper categoriaDTOMapper;
+    private final CategoriaMapper categoriaMapper;
 
-    public CategoriaService(CategoriaRepository repository, CategoriaDTOMapper categoriaDTOMapper) {
+    public CategoriaService(CategoriaRepository repository, CategoriaMapper categoriaMapper) {
         this.repository = repository;
-        this.categoriaDTOMapper = categoriaDTOMapper;
+        this.categoriaMapper = categoriaMapper;
     }
 
     public Page<CategoriaDTO> find(Pageable pageable) {
-        return repository.findAll(pageable).map(categoriaDTOMapper);
+        return repository.findAll(pageable).map(categoriaMapper::toDTO);
     }
 
     public CategoriaDTO save(CategoriaDTO form) {
-        Categoria categoria = toCategoria(form);
+        Categoria categoria = categoriaMapper.toEntity(form);
 
         categoria.setProcessamento(LocalDate.now());
-        categoria.setPai(toCategoria(form.getPai()));
         categoria = repository.save(categoria);
 
-        return categoriaDTOMapper.apply(categoria);
+        return categoriaMapper.toDTO(categoria);
     }
 
     public CategoriaDTO findById(Integer id) {
         Optional<Categoria> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            return categoriaDTOMapper.apply(optional.get());
+            return categoriaMapper.toDTO(optional.get());
         }
         throw new RecursoInexistenteException(id, "categoria");
     }
@@ -48,9 +47,9 @@ public class CategoriaService {
         boolean existe = repository.existsById(dto.getId());
 
         if (existe) {
-            Categoria categoria = toCategoria(dto);
+            Categoria categoria = categoriaMapper.toEntity(dto);
             categoria.setAtualizacao(LocalDate.now());
-            return categoriaDTOMapper.apply(repository.save(categoria));
+            return categoriaMapper.toDTO(repository.save(categoria));
         }
 
         throw new RecursoInexistenteException(dto.getId(), "categoria");
@@ -64,19 +63,4 @@ public class CategoriaService {
         repository.deleteById(id);
     }
 
-    private Categoria toCategoria(CategoriaDTO dto) {
-        if (dto != null) {
-            Categoria categoria = new Categoria();
-            categoria.setId(dto.getId());
-            categoria.setNome(dto.getNome());
-
-            if (dto.getPai() != null) {
-                Optional<Categoria> optional = repository.findById(dto.getPai().getId());
-                optional.ifPresent(categoria::setPai);
-            }
-
-            return categoria;
-        }
-        return null;
-    }
 }
