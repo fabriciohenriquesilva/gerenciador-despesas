@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -21,12 +22,12 @@ public class CategoriaRest {
 
     @GetMapping
     public ResponseEntity<Page<CategoriaDTO>> find(@PageableDefault() Pageable paginacao) {
-        Page<CategoriaDTO> page = service.find(paginacao);
+        Page<CategoriaDTO> page = service.findAll(paginacao);
         return ResponseEntity.ok(page);
     }
 
     @PostMapping
-    public ResponseEntity<CategoriaDTO> save(@RequestBody CategoriaDTO form, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<CategoriaDTO> save(@RequestBody @Valid CategoriaDTO form, UriComponentsBuilder uriBuilder) {
         CategoriaDTO categoria = service.save(form);
         URI uri = uriBuilder.path("/categorias/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).body(categoria);
@@ -39,9 +40,8 @@ public class CategoriaRest {
     }
 
     @PutMapping
-    public ResponseEntity<CategoriaDTO> update(@RequestBody CategoriaDTO form) {
-        service.update(form);
-        return ResponseEntity.ok(form);
+    public ResponseEntity<CategoriaDTO> update(@RequestBody @Valid CategoriaDTO form) {
+        return ResponseEntity.ok(service.update(form));
     }
 
     @DeleteMapping("/{id}")
