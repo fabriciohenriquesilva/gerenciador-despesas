@@ -2,6 +2,7 @@ package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
 import dev.fabriciosilva.controlefinanceiro.core.MapperContract;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,8 +25,7 @@ public class CategoriaMapper implements MapperContract<Categoria, CategoriaDTO> 
             }
 
             Categoria categoria = new Categoria();
-            categoria.setId(dto.getId());
-            categoria.setNome(dto.getNome());
+            BeanUtils.copyProperties(dto, categoria);
 
             if (dto.getPai() != null) {
                 Optional<Categoria> optional = categoriaRepository.findById(dto.getPai().getId());
@@ -40,8 +40,7 @@ public class CategoriaMapper implements MapperContract<Categoria, CategoriaDTO> 
     @Override
     public CategoriaDTO toDTO(Categoria categoria) {
         CategoriaDTO dto = new CategoriaDTO();
-        dto.setId(categoria.getId());
-        dto.setNome(categoria.getNome());
+        BeanUtils.copyProperties(categoria, dto);
 
         if (categoria.getPai() != null) {
             dto.setPai(this.toDTO(categoria.getPai()));

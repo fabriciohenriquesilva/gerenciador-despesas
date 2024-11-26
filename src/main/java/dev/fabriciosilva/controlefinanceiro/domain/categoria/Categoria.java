@@ -27,6 +27,16 @@ public class Categoria {
 
     // usuario
 
+    @PrePersist
+    public void prePersist() {
+        this.processamento = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.atualizacao = LocalDate.now();
+    }
+
     public Integer getId() {
         return id;
     }
