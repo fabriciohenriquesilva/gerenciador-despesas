@@ -1,56 +1,42 @@
 package dev.fabriciosilva.controlefinanceiro.domain.parcela;
 
-import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.MovimentoFinanceiro;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.MovimentoFinanceiroDTO;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
-@Entity
-@Table(name = "parcela")
-public class Parcela {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ParcelaDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "movimentoFinanceiro", referencedColumnName = "id")
-    private MovimentoFinanceiro movimentoFinanceiro;
+    @NotNull(message = "A parcela precisa estar vinculada a uma Movimentação Financeira")
+    @JsonBackReference
+    private MovimentoFinanceiroDTO movimentoFinanceiroDTO;
 
+    @NotNull(message = "Informe o número da parcela")
     private Integer numero;
 
+    @NotNull(message = "Informe a quantidade de parcelas")
     private Integer quantidade;
 
+    @NotNull(message = "Informe o valor total da parcela")
     private BigDecimal valorTotal;
 
     private BigDecimal desconto;
 
     private BigDecimal valorLiquido;
 
+    @NotNull(message = "Informe a data de pagamento da parcela")
     private LocalDate dataPagamento;
 
+    @NotNull(message = "Informe a data de vencimento da parcela")
     private LocalDate dataVencimento;
 
-    @Enumerated(EnumType.STRING)
     private FormaDePagamento formaDePagamento;
-
-    // usuario
-
-    private LocalDate processamento;
-
-    private LocalDate atualizacao;
-
-    @PrePersist
-    public void prePersist() {
-        this.processamento = LocalDate.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.atualizacao = LocalDate.now();
-    }
 
     public Integer getId() {
         return id;
@@ -60,12 +46,12 @@ public class Parcela {
         this.id = id;
     }
 
-    public MovimentoFinanceiro getMovimentoFinanceiro() {
-        return movimentoFinanceiro;
+    public MovimentoFinanceiroDTO getMovimentoFinanceiroDTO() {
+        return movimentoFinanceiroDTO;
     }
 
-    public void setMovimentoFinanceiro(MovimentoFinanceiro movimentoFinanceiro) {
-        this.movimentoFinanceiro = movimentoFinanceiro;
+    public void setMovimentoFinanceiroDTO(MovimentoFinanceiroDTO movimentoFinanceiroDTO) {
+        this.movimentoFinanceiroDTO = movimentoFinanceiroDTO;
     }
 
     public Integer getNumero() {
@@ -130,34 +116,5 @@ public class Parcela {
 
     public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
         this.formaDePagamento = formaDePagamento;
-    }
-
-    public LocalDate getProcessamento() {
-        return processamento;
-    }
-
-    public void setProcessamento(LocalDate processamento) {
-        this.processamento = processamento;
-    }
-
-    public LocalDate getAtualizacao() {
-        return atualizacao;
-    }
-
-    public void setAtualizacao(LocalDate atualizacao) {
-        this.atualizacao = atualizacao;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Parcela)) return false;
-        Parcela parcela = (Parcela) o;
-        return Objects.equals(id, parcela.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

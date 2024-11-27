@@ -1,6 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro;
 
-public enum Tipo {
+public enum TipoMovimentoFinanceiro {
 
     RECEITA("Receita"),
     DESPESA("Despesa"),
@@ -8,7 +8,7 @@ public enum Tipo {
 
     private String descricao;
 
-    Tipo(String descricao) {
+    TipoMovimentoFinanceiro(String descricao) {
         this.descricao = descricao;
     }
 

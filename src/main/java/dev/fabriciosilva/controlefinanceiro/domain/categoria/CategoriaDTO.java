@@ -1,7 +1,10 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotBlank;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoriaDTO {
 
     private Integer id;
