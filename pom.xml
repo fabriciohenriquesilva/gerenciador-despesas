@@ -13,7 +13,7 @@
 	<groupId>dev.fabriciosilva</groupId>
 	<artifactId>controle-financeiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gerenciador-despesas</name>
+	<name>controle-financeiro</name>
 	<description>Projeto de Gerenciamento de Despesas Web</description>
 
 	<properties>
