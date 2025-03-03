@@ -1,5 +1,10 @@
 package dev.fabriciosilva.controlefinanceiro.domain.user;
 
+import dev.fabriciosilva.controlefinanceiro.domain.passwordreset.PasswordResetTokenService;
+import dev.fabriciosilva.controlefinanceiro.domain.passwordreset.dto.ResetPasswordRequest;
+import dev.fabriciosilva.controlefinanceiro.domain.passwordreset.dto.PasswordResetTokenRequest;
+import dev.fabriciosilva.controlefinanceiro.domain.passwordreset.dto.PasswordResetTokenResponse;
+import dev.fabriciosilva.controlefinanceiro.domain.passwordreset.dto.ResetPasswordResponse;
 import dev.fabriciosilva.controlefinanceiro.domain.user.dto.UserCreateRequest;
 import dev.fabriciosilva.controlefinanceiro.domain.user.dto.UserLoginRequest;
 import dev.fabriciosilva.controlefinanceiro.domain.user.dto.UserResponseDetail;
@@ -56,9 +61,24 @@ public class UserRest {
     public ResponseEntity<byte[]> getUserProfilePic(@PathVariable Integer id) {
         byte[] profilePic = userService.getProfilePic(id);
 
+        // TODO ver depois como tratar outros tipos de arquivos
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG) // Assumindo que seja JPEG
                 .body(profilePic);
+    }
+
+    @PostMapping(value = "/forgotPassword")
+    public ResponseEntity<PasswordResetTokenResponse> forgotPassword(@RequestBody @Valid PasswordResetTokenRequest form) {
+        userService.generatePasswordResetToken(form);
+        PasswordResetTokenResponse response = new PasswordResetTokenResponse("Se este e-mail estiver cadastrado, um link de recuperação foi enviado.");
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "/resetPassword")
+    public ResponseEntity<ResetPasswordResponse> resetPassword(@RequestBody @Valid ResetPasswordRequest form) {
+        userService.resetPassword(form);
+        ResetPasswordResponse response = new ResetPasswordResponse("Senha alterada com sucesso!");
+        return ResponseEntity.ok(response);
     }
 
 }

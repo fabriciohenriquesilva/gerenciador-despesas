@@ -35,8 +35,8 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user/login", "/user/create").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/{userId}", "/user").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/login", "/user/create", "/user/forgotPassword", "/user/resetPassword").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/{userId}", "/user").permitAll() //TODO remover essa linha futuramente
                 .anyRequest().authenticated()
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

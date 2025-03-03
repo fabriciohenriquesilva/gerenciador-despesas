@@ -2,6 +2,7 @@ package dev.fabriciosilva.controlefinanceiro.domain.user.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class UserCreateRequest {
 
@@ -9,6 +10,7 @@ public class UserCreateRequest {
     private String username;
 
     @NotBlank(message = "Senha de usuário não pode ser nulo/vazio")
+    @Size(min = 6, max = 15)
     private String password;
 
     @NotBlank(message = "O nome não pode ser nulo/vazio")

@@ -28,7 +28,7 @@ public class CategoriaRest {
 
     @PostMapping
     public ResponseEntity<CategoriaDTO> save(@RequestBody @Valid CategoriaDTO form, UriComponentsBuilder uriBuilder) {
-        CategoriaDTO categoria = service.save(form);
+        CategoriaDTO categoria = service.create(form);
         URI uri = uriBuilder.path("/categorias/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).body(categoria);
     }

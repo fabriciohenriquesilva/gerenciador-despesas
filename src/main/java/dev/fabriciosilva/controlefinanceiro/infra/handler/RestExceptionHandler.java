@@ -1,8 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.infra.handler;
 
-import dev.fabriciosilva.controlefinanceiro.infra.exception.ExceptionDetails;
-import dev.fabriciosilva.controlefinanceiro.infra.exception.FormValidationExceptionDetails;
-import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
+import dev.fabriciosilva.controlefinanceiro.infra.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +48,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                         ex.getClass().getSimpleName(),
                         LocalDateTime.now()),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(TokenInvalidoException.class)
+    private ResponseEntity<Object> handleTokenInvalido(TokenInvalidoException ex) {
+        return new ResponseEntity<>(
+                new ExceptionDetails(
+                        "Token Inválido",
+                        HttpStatus.UNAUTHORIZED.value(),
+                        ex.getLocalizedMessage(),
+                        ex.getClass().getSimpleName(),
+                        LocalDateTime.now()),
+                HttpStatus.UNAUTHORIZED
+        );
+    }
+
+    @ExceptionHandler(ServiceException.class)
+    private ResponseEntity<Object> handleServiceException(ServiceException ex) {
+        return new ResponseEntity<>(
+                new ExceptionDetails(
+                        "Erro na comunicação entre serviços",
+                        HttpStatus.SERVICE_UNAVAILABLE.value(),
+                        ex.getLocalizedMessage(),
+                        ex.getClass().getSimpleName(),
+                        LocalDateTime.now()),
+                HttpStatus.SERVICE_UNAVAILABLE
         );
     }
 

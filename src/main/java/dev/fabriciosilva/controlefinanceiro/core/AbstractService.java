@@ -12,5 +12,13 @@ public abstract class AbstractService<T, ID> {
         return getRepository().findById(id).orElse(null);
     }
 
+    public T save(T entity) {
+        return getRepository().save(entity);
+    }
+
+    public void delete(T entity) {
+        getRepository().delete(entity);
+    }
+
     public abstract JpaRepository<T, ID> getRepository();
 }

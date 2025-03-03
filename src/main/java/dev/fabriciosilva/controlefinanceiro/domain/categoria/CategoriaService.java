@@ -1,7 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
 import dev.fabriciosilva.controlefinanceiro.core.AbstractService;
-import dev.fabriciosilva.controlefinanceiro.core.ServiceContract;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional()
-public class CategoriaService extends AbstractService<Categoria, Integer> implements ServiceContract<CategoriaDTO, Integer> {
+@Transactional
+public class CategoriaService extends AbstractService<Categoria, Integer> {
 
     private final CategoriaRepository repository;
     private final CategoriaMapper categoriaMapper;
@@ -26,18 +25,15 @@ public class CategoriaService extends AbstractService<Categoria, Integer> implem
         return this.repository;
     }
 
-    @Override
     public Page<CategoriaDTO> findAll(Pageable pageable) {
         return repository.findAll(pageable).map(categoriaMapper::toDTO);
     }
 
-    @Override
-    public CategoriaDTO save(CategoriaDTO form) {
+    public CategoriaDTO create(CategoriaDTO form) {
         Categoria categoria = categoriaMapper.toEntity(form);
         return categoriaMapper.toDTO(repository.save(categoria));
     }
 
-    @Override
     public CategoriaDTO findById(Integer id) {
         Categoria categoria = repository.findById(id)
                 .orElseThrow(() -> new RecursoInexistenteException(id, "categoria"));
@@ -45,7 +41,6 @@ public class CategoriaService extends AbstractService<Categoria, Integer> implem
         return categoriaMapper.toDTO(categoria);
     }
 
-    @Override
     public CategoriaDTO update(CategoriaDTO dto) {
         Categoria categoria = repository.findById(dto.getId())
                 .orElseThrow(() -> new RecursoInexistenteException(dto.getId(), "categoria"));
@@ -61,7 +56,6 @@ public class CategoriaService extends AbstractService<Categoria, Integer> implem
         return categoriaMapper.toDTO(repository.save(categoria));
     }
 
-    @Override
     public void delete(Integer id) {
         boolean existe = repository.existsById(id);
         if (!existe) {
