@@ -1,5 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.user.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class UserCreateRequest {
@@ -14,6 +15,7 @@ public class UserCreateRequest {
     private String nome;
 
     @NotBlank(message = "O email não pode ser nulo/vazio")
+    @Email
     private String email;
 
     public String getNome() {
