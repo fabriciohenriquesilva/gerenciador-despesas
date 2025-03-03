@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collection;
@@ -19,7 +20,7 @@ public class User implements UserDetails {
     private Integer id;
 
     @Column(nullable = false)
-    private String name;
+    private String nome;
 
     @Column(nullable = false, unique = true, length = 15)
     private String username;
@@ -29,6 +30,8 @@ public class User implements UserDetails {
 
     @Column(nullable = false, unique = true, length = 50)
     private String email;
+
+    private LocalDate dataNascimento;
 
     // TODO mudar para ByteA para o banco Postgres
     @Lob
@@ -143,12 +146,12 @@ public class User implements UserDetails {
         this.version = version;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String name) {
+        this.nome = name;
     }
 
     public byte[] getProfilePic() {
@@ -157,5 +160,13 @@ public class User implements UserDetails {
 
     public void setProfilePic(byte[] profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 }

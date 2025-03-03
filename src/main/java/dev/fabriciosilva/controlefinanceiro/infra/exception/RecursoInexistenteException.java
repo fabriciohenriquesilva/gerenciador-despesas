@@ -14,7 +14,7 @@ public class RecursoInexistenteException extends RuntimeException {
         super("Não foi encontrado um registro com id [" + id + "]");
     }
 
-    public RecursoInexistenteException(String nome) {
-        super("Não foi encontrado um registro com nome/descrição: [" + nome + "]");
+    public RecursoInexistenteException(String message) {
+        super(message);
     }
 }

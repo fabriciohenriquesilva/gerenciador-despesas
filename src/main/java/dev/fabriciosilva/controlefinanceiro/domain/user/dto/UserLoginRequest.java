@@ -2,7 +2,7 @@ package dev.fabriciosilva.controlefinanceiro.domain.user.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class UserLoginDto {
+public class UserLoginRequest {
 
     @NotBlank(message = "Nome de usuário não pode ser nulo/vazio")
     private String username;
