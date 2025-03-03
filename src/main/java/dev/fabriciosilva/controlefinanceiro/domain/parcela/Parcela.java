@@ -16,13 +16,15 @@ public class Parcela {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "movimentoFinanceiro", referencedColumnName = "id")
+    @JoinColumn(name = "movimentoFinanceiro", referencedColumnName = "id", nullable = false)
     private MovimentoFinanceiro movimentoFinanceiro;
 
+    @Column(nullable = false)
     private Integer numero;
 
     private Integer quantidade;
 
+    @Column(nullable = false)
     private BigDecimal valorTotal;
 
     private BigDecimal desconto;
@@ -31,15 +33,17 @@ public class Parcela {
 
     private LocalDate dataPagamento;
 
+    @Column(nullable = false)
     private LocalDate dataVencimento;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private FormaPagamento formaPagamento;
 
-    // usuario
-
+    @Column(nullable = false)
     private LocalDate processamento;
 
+    @Column(nullable = false)
     private LocalDate atualizacao;
 
     @PrePersist

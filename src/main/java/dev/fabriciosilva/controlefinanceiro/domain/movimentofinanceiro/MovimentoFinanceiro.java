@@ -2,6 +2,7 @@ package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro;
 
 import dev.fabriciosilva.controlefinanceiro.domain.categoria.Categoria;
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.Parcela;
+import dev.fabriciosilva.controlefinanceiro.domain.user.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,27 +18,34 @@ public class MovimentoFinanceiro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String descricao;
 
+    @Column(nullable = false)
     private BigDecimal valor;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo")
+    @Column(name = "tipo", nullable = false)
     private TipoMovimentoFinanceiro tipoMovimentoFinanceiro;
 
     @ManyToOne
-    @JoinColumn(name = "categoria", referencedColumnName = "id")
+    @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
     private Categoria categoria;
 
     @OneToMany(mappedBy = "movimentoFinanceiro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Parcela> parcelas;
 
-    // usuário
+    @ManyToOne
+    @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false)
+     private User usuario;
 
+    @Column(nullable = false)
     private LocalDate data;
 
+    @Column(nullable = false)
     private LocalDate processamento;
 
+    @Column(nullable = false)
     private LocalDate atualizacao;
 
     @PrePersist
@@ -133,5 +141,13 @@ public class MovimentoFinanceiro {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public User getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(User usuario) {
+        this.usuario = usuario;
     }
 }

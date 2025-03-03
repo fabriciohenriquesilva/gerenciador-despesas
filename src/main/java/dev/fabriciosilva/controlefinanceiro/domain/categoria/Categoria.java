@@ -1,5 +1,7 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
+import dev.fabriciosilva.controlefinanceiro.domain.user.User;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -13,6 +15,7 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String nome;
 
     @ManyToOne
@@ -21,11 +24,18 @@ public class Categoria {
     @OneToMany(mappedBy = "pai", fetch = FetchType.LAZY)
     private Set<Categoria> subcategorias;
 
+    @Column(nullable = false)
     private LocalDate processamento;
 
+    @Column(nullable = false)
     private LocalDate atualizacao;
 
-    // usuario
+    @Version
+    private Integer version;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario", referencedColumnName = "id")
+    private User usuario;
 
     @PrePersist
     public void prePersist() {
@@ -96,5 +106,21 @@ public class Categoria {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public User getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(User usuario) {
+        this.usuario = usuario;
     }
 }
