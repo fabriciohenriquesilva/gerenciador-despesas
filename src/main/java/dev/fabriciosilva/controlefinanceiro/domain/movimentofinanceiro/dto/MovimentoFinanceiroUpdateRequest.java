@@ -1,0 +1,81 @@
+package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.fabriciosilva.controlefinanceiro.domain.categoria.CategoriaDTO;
+import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.TipoMovimentoFinanceiro;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class MovimentoFinanceiroUpdateRequest {
+
+    @NotNull(message = "Informa o ID da movimentação financeira")
+    private Integer id;
+
+    @NotBlank(message = "Informe a descrição da movimentação finaceira")
+    private String descricao;
+
+    @NotNull(message = "Informe o valor da movimentação financeira")
+    private BigDecimal valor;
+
+    @NotNull(message = "Informe o tipo da movimentação financeira")
+    private TipoMovimentoFinanceiro tipoMovimentoFinanceiro;
+
+    @NotNull(message = "Informe a data da movimentação financeira")
+    private LocalDate data;
+
+    @NotNull(message = "Informe a categoria da movimentação financeira")
+    private CategoriaDTO categoria;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public TipoMovimentoFinanceiro getTipoMovimentoFinanceiro() {
+        return tipoMovimentoFinanceiro;
+    }
+
+    public void setTipoMovimentoFinanceiro(TipoMovimentoFinanceiro tipoMovimentoFinanceiro) {
+        this.tipoMovimentoFinanceiro = tipoMovimentoFinanceiro;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public CategoriaDTO getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaDTO categoria) {
+        this.categoria = categoria;
+    }
+
+}

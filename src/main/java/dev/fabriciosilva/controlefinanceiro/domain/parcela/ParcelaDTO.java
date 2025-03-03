@@ -2,7 +2,7 @@ package dev.fabriciosilva.controlefinanceiro.domain.parcela;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.MovimentoFinanceiroDTO;
+import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto.MovimentoFinanceiroCreateRequest;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ public class ParcelaDTO {
 
     @NotNull(message = "A parcela precisa estar vinculada a uma Movimentação Financeira")
     @JsonBackReference
-    private MovimentoFinanceiroDTO movimentoFinanceiroDTO;
+    private MovimentoFinanceiroCreateRequest movimentoFinanceiroCreateRequest;
 
     @NotNull(message = "Informe o número da parcela")
     private Integer numero;
@@ -36,7 +36,7 @@ public class ParcelaDTO {
     @NotNull(message = "Informe a data de vencimento da parcela")
     private LocalDate dataVencimento;
 
-    private FormaDePagamento formaDePagamento;
+    private FormaPagamento formaPagamento;
 
     public Integer getId() {
         return id;
@@ -46,12 +46,12 @@ public class ParcelaDTO {
         this.id = id;
     }
 
-    public MovimentoFinanceiroDTO getMovimentoFinanceiroDTO() {
-        return movimentoFinanceiroDTO;
+    public MovimentoFinanceiroCreateRequest getMovimentoFinanceiroDTO() {
+        return movimentoFinanceiroCreateRequest;
     }
 
-    public void setMovimentoFinanceiroDTO(MovimentoFinanceiroDTO movimentoFinanceiroDTO) {
-        this.movimentoFinanceiroDTO = movimentoFinanceiroDTO;
+    public void setMovimentoFinanceiroDTO(MovimentoFinanceiroCreateRequest movimentoFinanceiroCreateRequest) {
+        this.movimentoFinanceiroCreateRequest = movimentoFinanceiroCreateRequest;
     }
 
     public Integer getNumero() {
@@ -110,11 +110,11 @@ public class ParcelaDTO {
         this.dataVencimento = dataVencimento;
     }
 
-    public FormaDePagamento getFormaDePagamento() {
-        return formaDePagamento;
+    public FormaPagamento getFormaDePagamento() {
+        return formaPagamento;
     }
 
-    public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
-        this.formaDePagamento = formaDePagamento;
+    public void setFormaDePagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 }

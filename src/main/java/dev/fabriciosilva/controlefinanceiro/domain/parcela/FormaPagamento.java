@@ -1,6 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.parcela;
 
-public enum FormaDePagamento {
+public enum FormaPagamento {
 
     DINHEIRO("Dinheiro"),
     PIX("PIX"),
@@ -10,7 +10,7 @@ public enum FormaDePagamento {
 
     private String descricao;
 
-    FormaDePagamento(String descricao) {
+    FormaPagamento(String descricao) {
         this.descricao = descricao;
     }
 

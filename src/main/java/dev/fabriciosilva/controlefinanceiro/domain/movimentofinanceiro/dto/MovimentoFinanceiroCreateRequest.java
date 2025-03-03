@@ -1,21 +1,16 @@
-package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro;
+package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.fabriciosilva.controlefinanceiro.domain.categoria.CategoriaDTO;
-import dev.fabriciosilva.controlefinanceiro.domain.parcela.ParcelaDTO;
+import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.TipoMovimentoFinanceiro;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MovimentoFinanceiroDTO {
-
-    private Integer id;
+public class MovimentoFinanceiroCreateRequest {
 
     @NotBlank(message = "Informe a descrição da movimentação finaceira")
     private String descricao;
@@ -34,26 +29,6 @@ public class MovimentoFinanceiroDTO {
 
     @NotNull(message = "Informe a categoria da movimentação financeira")
     private CategoriaDTO categoria;
-
-    @JsonManagedReference
-    private List<ParcelaDTO> parcelas;
-
-    public void addParcela(ParcelaDTO parcelaDTO) {
-        if (this.parcelas == null) {
-            this.parcelas = new ArrayList<>();
-        }
-        this.parcelas.add(parcelaDTO);
-    }
-
-    // gets and sets
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getDescricao() {
         return descricao;
@@ -102,13 +77,5 @@ public class MovimentoFinanceiroDTO {
     public void setCategoria(CategoriaDTO categoria) {
         this.categoria = categoria;
     }
-
-    public List<ParcelaDTO> getParcelas() {
-        return parcelas;
-    }
-
-//    public void setListaDeParcelas(List<ParcelaDTO> listaDeParcelas) {
-//        this.listaDeParcelas = listaDeParcelas;
-//    }
 
 }

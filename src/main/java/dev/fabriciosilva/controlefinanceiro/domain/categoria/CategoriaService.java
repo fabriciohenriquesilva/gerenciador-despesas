@@ -1,5 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
+import dev.fabriciosilva.controlefinanceiro.core.AbstractService;
 import dev.fabriciosilva.controlefinanceiro.core.ServiceContract;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
 import org.springframework.beans.BeanUtils;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional()
-public class CategoriaService implements ServiceContract<CategoriaDTO, Integer> {
+public class CategoriaService extends AbstractService<Categoria, Integer> implements ServiceContract<CategoriaDTO, Integer> {
 
     private final CategoriaRepository repository;
     private final CategoriaMapper categoriaMapper;
@@ -18,6 +19,11 @@ public class CategoriaService implements ServiceContract<CategoriaDTO, Integer> 
     public CategoriaService(CategoriaRepository repository, CategoriaMapper categoriaMapper) {
         this.repository = repository;
         this.categoriaMapper = categoriaMapper;
+    }
+
+    @Override
+    public CategoriaRepository getRepository() {
+        return this.repository;
     }
 
     @Override

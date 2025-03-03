@@ -34,7 +34,7 @@ public class Parcela {
     private LocalDate dataVencimento;
 
     @Enumerated(EnumType.STRING)
-    private FormaDePagamento formaDePagamento;
+    private FormaPagamento formaPagamento;
 
     // usuario
 
@@ -124,12 +124,12 @@ public class Parcela {
         this.dataVencimento = dataVencimento;
     }
 
-    public FormaDePagamento getFormaDePagamento() {
-        return formaDePagamento;
+    public FormaPagamento getFormaDePagamento() {
+        return formaPagamento;
     }
 
-    public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
-        this.formaDePagamento = formaDePagamento;
+    public void setFormaDePagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     public LocalDate getProcessamento() {
