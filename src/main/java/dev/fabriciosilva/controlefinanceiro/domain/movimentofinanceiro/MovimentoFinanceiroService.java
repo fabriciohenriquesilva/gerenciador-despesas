@@ -1,13 +1,15 @@
 package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro;
 
+import dev.fabriciosilva.controlefinanceiro.core.AbstractService;
 import dev.fabriciosilva.controlefinanceiro.domain.categoria.Categoria;
 import dev.fabriciosilva.controlefinanceiro.domain.categoria.CategoriaService;
 import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto.MovimentoFinanceiroCreateRequest;
-import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto.MovimentoFinanceiroDetailResponse;
-import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto.MovimentoFinanceiroSummaryResponse;
+import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto.MovimentoFinanceiroResponse;
 import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto.MovimentoFinanceiroUpdateRequest;
-import dev.fabriciosilva.controlefinanceiro.domain.parcela.Parcela;
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.ParcelaService;
+import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaResponse;
+import dev.fabriciosilva.controlefinanceiro.domain.user.User;
+import dev.fabriciosilva.controlefinanceiro.infra.context.AuthenticationFacade;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.FormValidationException;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
 import org.springframework.beans.BeanUtils;
@@ -16,47 +18,59 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional()
-public class MovimentoFinanceiroService {
+public class MovimentoFinanceiroService extends AbstractService<MovimentoFinanceiro, Integer> {
 
     private final MovimentoFinanceiroRepository repository;
     private final ParcelaService parcelaService;
     private final MovimentoFinanceiroMapper mapper;
     private final CategoriaService categoriaService;
+    private final AuthenticationFacade authenticationFacade;
 
-    public MovimentoFinanceiroService(MovimentoFinanceiroRepository repository, ParcelaService parcelaService, MovimentoFinanceiroMapper mapper, CategoriaService categoriaService) {
+    public MovimentoFinanceiroService(MovimentoFinanceiroRepository repository, ParcelaService parcelaService, MovimentoFinanceiroMapper mapper, CategoriaService categoriaService, AuthenticationFacade authenticationFacade) {
         this.repository = repository;
         this.parcelaService = parcelaService;
         this.mapper = mapper;
         this.categoriaService = categoriaService;
+        this.authenticationFacade = authenticationFacade;
     }
 
-    public Page<MovimentoFinanceiroSummaryResponse> findAll(Pageable pageable) {
-        return repository.findAll(pageable).map(mapper::toSummaryResponse);
+    @Override
+    public MovimentoFinanceiroRepository getRepository() {
+        return repository;
     }
 
-    public MovimentoFinanceiroSummaryResponse save(MovimentoFinanceiroCreateRequest form) {
+    public Page<MovimentoFinanceiroResponse> findAll(Pageable pageable) {
+        User user = authenticationFacade.getUser();
+        return repository.findAllByUsuario(pageable, user).map(mapper::toDTO);
+    }
+
+    public MovimentoFinanceiroResponse create(MovimentoFinanceiroCreateRequest form) {
         MovimentoFinanceiro movimentoFinanceiro = mapper.toEntity(form);
+
+        User user = authenticationFacade.getUser();
+        movimentoFinanceiro.setUsuario(user);
+
         movimentoFinanceiro = repository.save(movimentoFinanceiro);
 
-        this.gerarParcelas(movimentoFinanceiro, form.getQuantidadeParcelas(), form.getValor());
+        this.parcelaService.gerar(movimentoFinanceiro, form.getQuantidadeParcelas());
 
-        return mapper.toSummaryResponse(movimentoFinanceiro);
+        return mapper.toDTO(movimentoFinanceiro);
     }
 
-    public MovimentoFinanceiroDetailResponse findById(Integer id) {
-        MovimentoFinanceiro movimentoFinanceiro = repository.findById(id)
+    public MovimentoFinanceiroResponse findById(Integer id) {
+        User user = authenticationFacade.getUser();
+
+        MovimentoFinanceiro movimentoFinanceiro = repository.findByIdAndUsuario(id, user)
                 .orElseThrow(() -> new RecursoInexistenteException(id, "movimento financeiro"));
 
-        return mapper.toDetailResponse(movimentoFinanceiro);
+        return mapper.toDTO(movimentoFinanceiro);
     }
 
-    public MovimentoFinanceiroSummaryResponse update(MovimentoFinanceiroUpdateRequest form) {
+    public MovimentoFinanceiroResponse update(MovimentoFinanceiroUpdateRequest form) {
         if (form.getId() == null) {
             throw new FormValidationException("Não foi informado o ID do registro a ser atualizado");
         }
@@ -71,9 +85,7 @@ public class MovimentoFinanceiroService {
 
         MovimentoFinanceiro saved = repository.save(movimentoFinanceiro);
 
-        // TODO ver como ficará a alteração de dados da parcela caso seja alterado a quantidade, valor e data
-
-        return mapper.toSummaryResponse(saved);
+        return mapper.toDTO(saved);
     }
 
     public void delete(Integer id) {
@@ -84,19 +96,11 @@ public class MovimentoFinanceiroService {
         repository.deleteById(id);
     }
 
-    private void gerarParcelas(MovimentoFinanceiro movimentoFinanceiro, Integer numeroParcelas, BigDecimal valor) {
-        BigDecimal valorParcela = valor.divide(BigDecimal.valueOf(numeroParcelas), RoundingMode.HALF_DOWN);
+    public List<ParcelaResponse> getParcelas(Integer id) {
+        User user = authenticationFacade.getUser();
+        MovimentoFinanceiro movimentoFinanceiro = repository.findByIdAndUsuario(id, user)
+                .orElseThrow(() -> new RecursoInexistenteException(id, "movimento financeiro"));
 
-        for (int i = 0; i < numeroParcelas; i++) {
-            Parcela parcela = new Parcela();
-
-            parcela.setMovimentoFinanceiro(movimentoFinanceiro);
-            parcela.setNumero(i + 1);
-            parcela.setQuantidade(numeroParcelas);
-            parcela.setValorTotal(valorParcela);
-            parcela.setDataVencimento(LocalDate.now().plusMonths(i + 1));
-
-            parcelaService.save(parcela);
-        }
+        return this.parcelaService.findAllByMovimentoFinanceiro(movimentoFinanceiro);
     }
 }

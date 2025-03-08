@@ -37,7 +37,7 @@ public class MovimentoFinanceiro {
 
     @ManyToOne
     @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false)
-     private User usuario;
+    private User usuario;
 
     @Column(nullable = false)
     private LocalDate data;
@@ -47,6 +47,9 @@ public class MovimentoFinanceiro {
 
     @Column(nullable = false)
     private LocalDate atualizacao;
+
+    @Version
+    private Integer version;
 
     @PrePersist
     public void prePersist() {
@@ -149,5 +152,13 @@ public class MovimentoFinanceiro {
 
     public void setUsuario(User usuario) {
         this.usuario = usuario;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }
