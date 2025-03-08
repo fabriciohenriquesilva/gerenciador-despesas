@@ -6,6 +6,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import dev.fabriciosilva.controlefinanceiro.domain.user.User;
 import dev.fabriciosilva.controlefinanceiro.domain.user.UserRepository;
+import dev.fabriciosilva.controlefinanceiro.infra.exception.TokenGenerationException;
+import dev.fabriciosilva.controlefinanceiro.infra.exception.TokenInvalidoException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.time.ZoneOffset;
 public class TokenService {
 
     private final UserRepository userRepository;
+
     @Value("${api.security.token.secret}")
     private String tokenSecret;
 
@@ -38,7 +41,7 @@ public class TokenService {
                     .withExpiresAt(generateTokenValidityPeriod())
                     .sign(algorithm);
         } catch (JWTCreationException ex) {
-            throw new RuntimeException("Token generation failed");
+            throw new TokenGenerationException("Erro ao criar Token de Acesso para o usuário");
         }
 
     }
@@ -52,7 +55,7 @@ public class TokenService {
                     .verify(tokenJWT)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Invalid or expired token");
+            throw new TokenInvalidoException("Token inválido ou expirado");
         }
     }
 

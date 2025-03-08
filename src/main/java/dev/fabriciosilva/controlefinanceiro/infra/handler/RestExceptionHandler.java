@@ -64,6 +64,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(TokenGenerationException.class)
+    private ResponseEntity<Object> handleTokenInvalido(TokenGenerationException ex) {
+        return new ResponseEntity<>(
+                new ExceptionDetails(
+                        "Erro ao criar Token",
+                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        ex.getLocalizedMessage(),
+                        ex.getClass().getSimpleName(),
+                        LocalDateTime.now()),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
     @ExceptionHandler(ServiceException.class)
     private ResponseEntity<Object> handleServiceException(ServiceException ex) {
         return new ResponseEntity<>(
