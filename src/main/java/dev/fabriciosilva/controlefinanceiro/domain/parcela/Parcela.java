@@ -37,7 +37,6 @@ public class Parcela {
     private LocalDate dataVencimento;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private FormaPagamento formaPagamento;
 
     @Column(nullable = false)
@@ -45,6 +44,9 @@ public class Parcela {
 
     @Column(nullable = false)
     private LocalDate atualizacao;
+
+    @Version
+    private Integer version;
 
     @PrePersist
     public void prePersist() {
@@ -128,11 +130,11 @@ public class Parcela {
         this.dataVencimento = dataVencimento;
     }
 
-    public FormaPagamento getFormaDePagamento() {
+    public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaDePagamento(FormaPagamento formaPagamento) {
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 
@@ -163,5 +165,13 @@ public class Parcela {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

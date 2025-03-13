@@ -1,14 +1,13 @@
 package dev.fabriciosilva.controlefinanceiro.domain.parcela;
 
-import dev.fabriciosilva.controlefinanceiro.core.MapperContract;
+import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ParcelaMapper implements MapperContract<Parcela, ParcelaDTO> {
+public class ParcelaMapper {
 
-    @Override
-    public Parcela toEntity(ParcelaDTO dto) {
+    public Parcela toEntity(ParcelaResponse dto) {
         if (dto == null) {
             return null;
         }
@@ -19,9 +18,8 @@ public class ParcelaMapper implements MapperContract<Parcela, ParcelaDTO> {
         return parcela;
     }
 
-    @Override
-    public ParcelaDTO toDTO(Parcela entity) {
-        ParcelaDTO dto = new ParcelaDTO();
+    public ParcelaResponse toDTO(Parcela entity) {
+        ParcelaResponse dto = new ParcelaResponse();
         BeanUtils.copyProperties(entity, dto);
 
         return dto;
