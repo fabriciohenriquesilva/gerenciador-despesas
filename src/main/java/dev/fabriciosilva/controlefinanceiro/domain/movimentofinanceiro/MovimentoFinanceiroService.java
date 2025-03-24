@@ -75,7 +75,7 @@ public class MovimentoFinanceiroService extends AbstractService<MovimentoFinance
             throw new FormValidationException("Não foi informado o ID do registro a ser atualizado");
         }
 
-        MovimentoFinanceiro movimentoFinanceiro = repository.findById(form.getId())
+        MovimentoFinanceiro movimentoFinanceiro = repository.findByIdAndUsuario(form.getId(), authenticationFacade.getUser())
                 .orElseThrow(() -> new RecursoInexistenteException(form.getId(), "movimento financeiro"));
 
         BeanUtils.copyProperties(form, movimentoFinanceiro);
@@ -89,16 +89,14 @@ public class MovimentoFinanceiroService extends AbstractService<MovimentoFinance
     }
 
     public void delete(Integer id) {
-        boolean existe = repository.existsById(id);
-        if (!existe) {
-            throw new RecursoInexistenteException(id, "movimento financeiro");
-        }
+        repository.findByIdAndUsuario(id, authenticationFacade.getUser())
+                .orElseThrow(() -> new RecursoInexistenteException(id, "movimento financeiro"));
+
         repository.deleteById(id);
     }
 
     public List<ParcelaResponse> getParcelas(Integer id) {
-        User user = authenticationFacade.getUser();
-        MovimentoFinanceiro movimentoFinanceiro = repository.findByIdAndUsuario(id, user)
+        MovimentoFinanceiro movimentoFinanceiro = repository.findByIdAndUsuario(id, authenticationFacade.getUser())
                 .orElseThrow(() -> new RecursoInexistenteException(id, "movimento financeiro"));
 
         return this.parcelaService.findAllByMovimentoFinanceiro(movimentoFinanceiro);

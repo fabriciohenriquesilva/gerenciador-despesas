@@ -24,6 +24,9 @@ public class Categoria {
     @OneToMany(mappedBy = "pai", fetch = FetchType.LAZY)
     private Set<Categoria> subcategorias;
 
+    @Column(length = 7)
+    private String cor;
+
     @Column(nullable = false)
     private LocalDate processamento;
 
@@ -122,5 +125,13 @@ public class Categoria {
 
     public void setUsuario(User usuario) {
         this.usuario = usuario;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
     }
 }

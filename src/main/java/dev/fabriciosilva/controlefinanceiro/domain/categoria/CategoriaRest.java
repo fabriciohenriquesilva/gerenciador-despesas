@@ -1,5 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
+import dev.fabriciosilva.controlefinanceiro.domain.categoria.dto.CategoriaDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

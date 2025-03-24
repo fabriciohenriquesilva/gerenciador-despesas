@@ -1,7 +1,7 @@
 package dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.fabriciosilva.controlefinanceiro.domain.categoria.CategoriaDTO;
+import dev.fabriciosilva.controlefinanceiro.domain.categoria.dto.CategoriaDTO;
 import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.TipoMovimentoFinanceiro;
 
 import javax.validation.constraints.NotBlank;

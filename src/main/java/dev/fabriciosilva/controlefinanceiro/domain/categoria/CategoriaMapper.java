@@ -1,6 +1,7 @@
 package dev.fabriciosilva.controlefinanceiro.domain.categoria;
 
 import dev.fabriciosilva.controlefinanceiro.core.MapperContract;
+import dev.fabriciosilva.controlefinanceiro.domain.categoria.dto.CategoriaDTO;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

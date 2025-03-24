@@ -5,7 +5,7 @@ import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.Movimento
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaResponse;
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaUpdateRequest;
 import dev.fabriciosilva.controlefinanceiro.domain.user.User;
-import dev.fabriciosilva.controlefinanceiro.infra.context.AuthenticationFacadeImpl;
+import dev.fabriciosilva.controlefinanceiro.infra.context.AuthenticationFacade;
 import dev.fabriciosilva.controlefinanceiro.infra.exception.RecursoInexistenteException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ public class ParcelaService extends AbstractService<Parcela, Integer> {
 
     private final ParcelaRepository parcelaRepository;
     private final ParcelaMapper parcelaMapper;
-    private final AuthenticationFacadeImpl authenticationFacadeImpl;
+    private final AuthenticationFacade authenticationFacade;
 
-    public ParcelaService(ParcelaRepository parcelaRepository, ParcelaMapper parcelaMapper, AuthenticationFacadeImpl authenticationFacadeImpl) {
+    public ParcelaService(ParcelaRepository parcelaRepository, ParcelaMapper parcelaMapper, AuthenticationFacade authenticationFacade) {
         this.parcelaRepository = parcelaRepository;
         this.parcelaMapper = parcelaMapper;
-        this.authenticationFacadeImpl = authenticationFacadeImpl;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ParcelaService extends AbstractService<Parcela, Integer> {
     }
 
     public ParcelaResponse findById(Integer id) {
-        User user = authenticationFacadeImpl.getUser();
+        User user = authenticationFacade.getUser();
 
         Parcela parcela = parcelaRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new RecursoInexistenteException(id, "parcela"));
@@ -70,17 +70,16 @@ public class ParcelaService extends AbstractService<Parcela, Integer> {
     }
 
     public void deleteById(Integer id) {
-        boolean existe = parcelaRepository.existsById(id);
-        if (!existe) {
-            throw new RecursoInexistenteException(id, "parcela");
-        }
+        parcelaRepository.findByIdAndUser(id, authenticationFacade.getUser())
+                        .orElseThrow(() -> new RecursoInexistenteException(id, "parcela"));
+
         parcelaRepository.deleteById(id);
     }
 
 
     public ParcelaResponse update(ParcelaUpdateRequest form) {
         Integer id = form.getId();
-        User user = authenticationFacadeImpl.getUser();
+        User user = authenticationFacade.getUser();
 
         Parcela parcela = parcelaRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new RecursoInexistenteException(id, "parcela"));
