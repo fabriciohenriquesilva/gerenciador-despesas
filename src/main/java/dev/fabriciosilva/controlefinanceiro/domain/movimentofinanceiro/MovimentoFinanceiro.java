@@ -45,7 +45,6 @@ public class MovimentoFinanceiro {
     @Column(nullable = false)
     private LocalDate processamento;
 
-    @Column(nullable = false)
     private LocalDate atualizacao;
 
     @Version
