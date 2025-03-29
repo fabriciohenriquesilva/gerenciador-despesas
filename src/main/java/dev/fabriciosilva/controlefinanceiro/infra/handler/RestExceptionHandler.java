@@ -38,6 +38,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(FormValidationException.class)
+    private ResponseEntity<Object> handleRecursoInexistente(FormValidationException ex) {
+        return new ResponseEntity<>(
+                new ExceptionDetails(
+                        "O formulário enviado apresenta erros",
+                        HttpStatus.BAD_REQUEST.value(),
+                        ex.getLocalizedMessage(),
+                        ex.getClass().getSimpleName(),
+                        LocalDateTime.now()),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
     @ExceptionHandler(RecursoInexistenteException.class)
     private ResponseEntity<Object> handleRecursoInexistente(RecursoInexistenteException ex) {
         return new ResponseEntity<>(
