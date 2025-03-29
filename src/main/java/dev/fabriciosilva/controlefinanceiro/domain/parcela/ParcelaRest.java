@@ -1,5 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.parcela;
 
+import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaPagamentoRequest;
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaResponse;
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.dto.ParcelaUpdateRequest;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,11 @@ public class ParcelaRest {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         parcelaService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/pagar")
+    public ResponseEntity<ParcelaResponse> pagar(@RequestBody @Valid ParcelaPagamentoRequest form) {
+        ParcelaResponse response = parcelaService.pagar(form);
+        return ResponseEntity.ok(response);
     }
 }

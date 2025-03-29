@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 public class ContaBancoMapper {
 
     public ContaBancoResponse toDTO(ContaBanco contaBanco) {
+        if (contaBanco == null) {
+            return null;
+        }
+
         ContaBancoResponse contaBancoResponse = new ContaBancoResponse();
         BeanUtils.copyProperties(contaBanco, contaBancoResponse);
         return contaBancoResponse;

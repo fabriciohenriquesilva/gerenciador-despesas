@@ -1,32 +1,28 @@
 package dev.fabriciosilva.controlefinanceiro.domain.parcela.dto;
 
-import dev.fabriciosilva.controlefinanceiro.domain.contabanco.dto.ContaBancoResponse;
 import dev.fabriciosilva.controlefinanceiro.domain.parcela.FormaPagamento;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class ParcelaResponse {
+public class ParcelaPagamentoRequest {
 
+    @NotNull(message = "O ID da parcela não pode ser nulo")
     private Integer id;
-
-    private Integer numero;
-
-    private Integer quantidade;
-
-    private BigDecimal valorTotal;
 
     private BigDecimal desconto;
 
+    @NotNull(message = "Informe o valor líquido da parcela")
     private BigDecimal valorLiquido;
 
+    @NotNull(message = "Informe a data de pagamento")
     private LocalDate dataPagamento;
 
-    private LocalDate dataVencimento;
-
+    @NotNull(message = "Informe a forma de pagamento")
     private FormaPagamento formaPagamento;
 
-    private ContaBancoResponse contaBanco;
+    private Integer contaBanco;
 
     public Integer getId() {
         return id;
@@ -34,30 +30,6 @@ public class ParcelaResponse {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getNumero() {
-        return numero;
-    }
-
-    public void setNumero(Integer numero) {
-        this.numero = numero;
-    }
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
     }
 
     public BigDecimal getDesconto() {
@@ -84,14 +56,6 @@ public class ParcelaResponse {
         this.dataPagamento = dataPagamento;
     }
 
-    public LocalDate getDataVencimento() {
-        return dataVencimento;
-    }
-
-    public void setDataVencimento(LocalDate dataVencimento) {
-        this.dataVencimento = dataVencimento;
-    }
-
     public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
@@ -100,11 +64,11 @@ public class ParcelaResponse {
         this.formaPagamento = formaPagamento;
     }
 
-    public ContaBancoResponse getContaBanco() {
+    public Integer getContaBanco() {
         return contaBanco;
     }
 
-    public void setContaBanco(ContaBancoResponse contaBanco) {
+    public void setContaBanco(Integer contaBanco) {
         this.contaBanco = contaBanco;
     }
 }

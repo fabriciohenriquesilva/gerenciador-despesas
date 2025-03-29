@@ -1,5 +1,6 @@
 package dev.fabriciosilva.controlefinanceiro.domain.parcela;
 
+import dev.fabriciosilva.controlefinanceiro.domain.contabanco.ContaBanco;
 import dev.fabriciosilva.controlefinanceiro.domain.movimentofinanceiro.MovimentoFinanceiro;
 
 import javax.persistence.*;
@@ -39,10 +40,13 @@ public class Parcela {
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
 
+    @ManyToOne
+    @JoinColumn(name = "contabanco", referencedColumnName = "id")
+    private ContaBanco contaBanco;
+
     @Column(nullable = false)
     private LocalDate processamento;
 
-    @Column(nullable = false)
     private LocalDate atualizacao;
 
     @Version
@@ -173,5 +177,13 @@ public class Parcela {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public ContaBanco getContaBanco() {
+        return contaBanco;
+    }
+
+    public void setContaBanco(ContaBanco contaBanco) {
+        this.contaBanco = contaBanco;
     }
 }
